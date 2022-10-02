@@ -1,5 +1,7 @@
 package com.miguelbarrios.snippettree.snippet;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,12 @@ public class SnippetController {
 	SnippetService snippetService;
 	
 	@GetMapping("snippets/{id}")
-	public CodeSnippet findById(@PathVariable String id) {
-		return snippetService.findById(id);
+	public CodeSnippet findById(@PathVariable String id, HttpServletResponse response) {
+		CodeSnippet snippet = snippetService.findById(id);
+		if(snippet == null) {
+			response.setStatus(404);
+		}
+		return snippet;
 	}
 	
 	@PostMapping("snippets")
@@ -28,8 +34,12 @@ public class SnippetController {
 	}
 	
 	@DeleteMapping("snippets/{id}")
-	public void deleteSnippet(@PathVariable String id) {
-		snippetService.deleteSnippet(id);
+	public void deleteSnippet(@PathVariable String id, HttpServletResponse response) {
+		try {
+			snippetService.deleteSnippet(id);	
+		}catch(Exception e) {
+			response.setStatus(404);
+		}
 	}
 	
 	
