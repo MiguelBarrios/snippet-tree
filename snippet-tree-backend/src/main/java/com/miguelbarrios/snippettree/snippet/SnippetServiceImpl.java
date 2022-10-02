@@ -18,4 +18,10 @@ public class SnippetServiceImpl implements SnippetService {
 		return (option.isPresent()) ? option.get() : null;
 	}
 	
+	@Override
+	public CodeSnippet addSnippet(CodeSnippet snippet) {
+		CodeSnippet managedSnippet = snippetRepository.save(snippet);
+		return managedSnippet;
+	}
+	
 }

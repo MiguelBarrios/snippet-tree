@@ -4,4 +4,6 @@ public interface SnippetService {
 
 	CodeSnippet findById(String id);
 
+	CodeSnippet addSnippet(CodeSnippet snippet);
+
 }
