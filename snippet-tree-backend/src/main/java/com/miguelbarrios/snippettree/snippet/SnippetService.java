@@ -6,4 +6,6 @@ public interface SnippetService {
 
 	CodeSnippet addSnippet(CodeSnippet snippet);
 
+	void deleteSnippet(String id);
+
 }

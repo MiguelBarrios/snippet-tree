@@ -1,6 +1,7 @@
 package com.miguelbarrios.snippettree.snippet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +23,15 @@ public class SnippetController {
 	}
 	
 	@PostMapping("snippets")
-	public CodeSnippet addSnippet(@RequestBody CodeSnippet snippet) {
+	public CodeSnippet saveSnippet(@RequestBody CodeSnippet snippet) {
 		return snippetService.addSnippet(snippet);
 	}
+	
+	@DeleteMapping("snippets/{id}")
+	public void deleteSnippet(@PathVariable String id) {
+		snippetService.deleteSnippet(id);
+	}
+	
 	
 	
 }

@@ -24,4 +24,9 @@ public class SnippetServiceImpl implements SnippetService {
 		return managedSnippet;
 	}
 	
+	@Override
+	public void deleteSnippet(String id) {
+		snippetRepository.deleteById(id);
+	}
+	
 }
