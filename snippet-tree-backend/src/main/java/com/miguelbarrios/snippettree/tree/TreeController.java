@@ -1,5 +1,7 @@
 package com.miguelbarrios.snippettree.tree;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +46,16 @@ public class TreeController {
 		}
 		
 		return tree;
+	}
+	
+	@GetMapping("trees/users/{username}")
+	private List<Tree> getUserTrees(@PathVariable String username){
+		List<Tree> trees;
+		try {
+			trees = treeService.getUserTrees(username);
+		}catch(Exception e) {
+			trees = null;
+		}
+		return trees;
 	}
 }

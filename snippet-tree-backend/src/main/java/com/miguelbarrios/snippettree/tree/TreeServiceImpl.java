@@ -3,7 +3,11 @@ package com.miguelbarrios.snippettree.tree;
 import java.util.List;
 import java.util.Optional;
 
+import com.miguelbarrios.snippettree.user.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,8 +58,8 @@ public class TreeServiceImpl implements TreeService {
 
 	@Override
 	public List<Tree> getUserTrees(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Tree> trees = treeRepository.findAllByUsername(username);
+		return trees;
 	}
 
 }
