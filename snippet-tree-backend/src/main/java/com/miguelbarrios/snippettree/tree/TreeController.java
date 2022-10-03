@@ -49,12 +49,15 @@ public class TreeController {
 	}
 	
 	@GetMapping("trees/users/{username}")
-	private List<Tree> getUserTrees(@PathVariable String username){
+	private List<Tree> getUserTrees(@PathVariable String username, HttpServletResponse response){
 		List<Tree> trees;
+		System.out.println(username);
 		try {
 			trees = treeService.getUserTrees(username);
 		}catch(Exception e) {
 			trees = null;
+			e.printStackTrace();
+			response.setStatus(404);
 		}
 		return trees;
 	}

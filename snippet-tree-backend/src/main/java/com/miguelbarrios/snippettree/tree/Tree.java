@@ -13,9 +13,9 @@ public class Tree {
 	
 	private String treename;
 	
-	private String tree;
+	private TreeNode tree;
 
-	public Tree(String id, String username, String treename, String tree) {
+	public Tree(String id, String username, String treename, TreeNode tree) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -47,11 +47,12 @@ public class Tree {
 		this.treename = treename;
 	}
 
-	public String getTree() {
+	public TreeNode getTree() {
 		return tree;
 	}
 
-	public void setTree(String tree) {
+	public void setTree(TreeNode tree) {
 		this.tree = tree;
 	}
+	
 }
