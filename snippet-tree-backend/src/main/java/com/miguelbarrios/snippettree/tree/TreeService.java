@@ -7,9 +7,7 @@ public interface TreeService {
 	Tree save(Tree tree);
 	
 	boolean delete(String treeId);
-	
-	Tree findByTreeName();
-	
+		
 	Tree findByTreeId(String treeId);
 	
 	List<Tree> getUserTrees(String username);

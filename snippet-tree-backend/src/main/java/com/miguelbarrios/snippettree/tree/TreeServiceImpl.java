@@ -43,11 +43,6 @@ public class TreeServiceImpl implements TreeService {
 		
 	}
 
-	@Override
-	public Tree findByTreeName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Tree findByTreeId(String treeId) {	
