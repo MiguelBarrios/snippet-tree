@@ -1,6 +1,7 @@
 package com.miguelbarrios.snippettree.tree;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,9 +46,10 @@ public class TreeServiceImpl implements TreeService {
 	}
 
 	@Override
-	public Tree findByTreeId() {
-		// TODO Auto-generated method stub
-		return null;
+	public Tree findByTreeId(String treeId) {	
+		Optional<Tree> option = treeRepository.findById(treeId);
+		Tree tree = option.isPresent() ? option.get() : null;
+		return tree;
 	}
 
 	@Override

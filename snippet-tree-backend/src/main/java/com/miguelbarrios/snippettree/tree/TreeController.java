@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,5 +34,15 @@ public class TreeController {
 		if(!deleted) {
 			response.setStatus(404);
 		}
+	}
+	
+	@GetMapping("trees/{treeId}")
+	private Tree getTreeById(@PathVariable String treeId, HttpServletResponse response) {
+		Tree tree = treeService.findByTreeId(treeId);
+		if(tree == null) {
+			response.setStatus(404);
+		}
+		
+		return tree;
 	}
 }

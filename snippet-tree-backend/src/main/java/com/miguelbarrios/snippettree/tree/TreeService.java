@@ -10,7 +10,7 @@ public interface TreeService {
 	
 	Tree findByTreeName();
 	
-	Tree findByTreeId();
+	Tree findByTreeId(String treeId);
 	
 	List<Tree> getUserTrees(String username);
 }
