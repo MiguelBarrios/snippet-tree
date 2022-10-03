@@ -25,9 +25,17 @@ public class TreeServiceImpl implements TreeService {
 	}
 
 	@Override
-	public Tree delete(String treeId) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean delete(String treeId) {
+		try {
+			treeRepository.deleteById(treeId);	
+		}
+		catch(Exception e) {
+			return false;
+		}
+		
+		return true;
+		
+		
 	}
 
 	@Override

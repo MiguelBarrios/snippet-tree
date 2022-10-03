@@ -6,7 +6,7 @@ public interface TreeService {
 	
 	Tree save(Tree tree);
 	
-	Tree delete(String treeId);
+	boolean delete(String treeId);
 	
 	Tree findByTreeName();
 	
