@@ -4,21 +4,28 @@ public class TreeNode {
 	
 	private String name;
 	
-	private String type;
+	private boolean isFile;
 	
 	private String fileId;
 	
-	private String[] files;
+	private TreeNode[] items;
 	
-	private TreeNode[] directories;
+	private TreeNode() {}
 
-	public TreeNode(String name, String type, String fileId, String[] files, TreeNode[] directories) {
+	public TreeNode(String name, boolean isFile, String fileId, TreeNode[] items) {
 		super();
 		this.name = name;
-		this.type = type;
+		this.isFile = isFile;
 		this.fileId = fileId;
-		this.files = files;
-		this.directories = directories;
+		this.items = items;
+	}
+
+	public TreeNode(String name, String fileId) {
+		super();
+		this.name = name;
+		this.isFile = true;
+		this.fileId = fileId;
+		this.items = null;
 	}
 
 	public String getName() {
@@ -29,12 +36,12 @@ public class TreeNode {
 		this.name = name;
 	}
 
-	public String getType() {
-		return type;
+	public boolean isFile() {
+		return isFile;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setFile(boolean isFile) {
+		this.isFile = isFile;
 	}
 
 	public String getFileId() {
@@ -45,21 +52,19 @@ public class TreeNode {
 		this.fileId = fileId;
 	}
 
-	public String[] getFiles() {
-		return files;
+	public TreeNode[] getItems() {
+		return items;
 	}
 
-	public void setFiles(String[] files) {
-		this.files = files;
-	}
-
-	public TreeNode[] getDirectories() {
-		return directories;
-	}
-
-	public void setDirectories(TreeNode[] directories) {
-		this.directories = directories;
+	public void setItems(TreeNode[] items) {
+		this.items = items;
 	}
 
 	
+	
+	
+	
+
+
+
 }
