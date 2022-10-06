@@ -26,11 +26,29 @@ export class SnippetDisplayComponent implements OnInit {
       (snippet) => {
         console.log(snippet);
         this.activeSnippet = snippet;
+        this.loadSnippet();
       },
       (error) => {
 
       }
     )
+  }
+
+  loadSnippet(){
+    if(this.activeSnippet){
+      var space = document.createTextNode("\u00A0");
+
+      var element = document.getElementById("code-display-container");
+      if(element){
+        element.innerHTML = '';
+
+        for(var line of this.activeSnippet.content){
+          let div = document.createElement('div');
+          div.textContent = line;          
+          element.appendChild(div);
+        }
+      }      
+    }
   }
 
 }

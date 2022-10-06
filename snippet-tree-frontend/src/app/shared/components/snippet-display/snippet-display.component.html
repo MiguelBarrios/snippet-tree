@@ -11,18 +11,18 @@
             <ng-container *ngIf="activeSnippet">
                 <ng-container *ngIf="activeSnippet">
                     <div class="d-flex justify-content-end" *ngFor="let line of activeSnippet.content;let i=index;">
-                        {{i}}
+                        {{i + 1}}
                     </div>
                 </ng-container>
             </ng-container>
         </div>
 
-        <div class="code-display">
-            <ng-container *ngIf="activeSnippet">
+        <div id="code-display-container" class="code-display">
+            <!-- <ng-component *ngIf="activeSnippet">
                 <div *ngFor="let line of activeSnippet.content">
-                    {{line}}
+                    <div>{{line}}</div>
                 </div>
-            </ng-container>
+            </ng-component> -->
         </div>
 
     </div>
