@@ -7,12 +7,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { NgbDropdown, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SnippetDisplayComponent } from './shared/components/snippet-display/snippet-display.component';
+import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard/user-dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    SnippetDisplayComponent
+    SnippetDisplayComponent,
+    UserDashboardComponent
   ],
   imports: [
     BrowserModule,
