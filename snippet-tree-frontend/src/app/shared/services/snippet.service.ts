@@ -14,11 +14,11 @@ export class SnippetService {
   constructor(private http:HttpClient) { }
 
   getSnippetById(snippetId: String){
-    var url = this.url + '/snippetId'
+    var url = this.url + '/' + snippetId;
     return this.http.get<Snippet>(url).pipe(
       catchError((err: any) => {
         console.log(err);
-        return throwError('error getting snippet');
+        return throwError(err);
       })
     )
 
