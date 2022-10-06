@@ -34,6 +34,20 @@ export class SnippetDisplayComponent implements OnInit {
     )
   }
 
+  numLeadingSpaces(line:string) : number {
+    let count = 0;
+    for(let i = 0; i < line.length; ++i){
+      let c = line.charAt(i);
+      if(c == ' ' || c == ' '){
+        ++count;
+      }
+      else{
+        break;
+      }
+    }
+    return count;
+  }
+
   loadSnippet(){
     if(this.activeSnippet){
       var space = document.createTextNode("\u00A0");
@@ -43,8 +57,13 @@ export class SnippetDisplayComponent implements OnInit {
         element.innerHTML = '';
 
         for(var line of this.activeSnippet.content){
+
+          let leadingSpaces = this.numLeadingSpaces(line);
+          const spaces = ' '.repeat(leadingSpaces * 2);
+
+          
           let div = document.createElement('div');
-          div.textContent = line;          
+          div.textContent = spaces + line;          
           element.appendChild(div);
         }
       }      

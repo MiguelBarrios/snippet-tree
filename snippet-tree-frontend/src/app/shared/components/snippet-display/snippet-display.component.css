@@ -19,3 +19,7 @@
 .gutter {
     color: rgb(112,118,128);
 }
+
+#code-display-container{
+    font-size: larger;
+}
