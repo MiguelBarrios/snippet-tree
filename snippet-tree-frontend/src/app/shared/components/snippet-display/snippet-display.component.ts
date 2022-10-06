@@ -12,7 +12,7 @@ export class SnippetDisplayComponent implements OnInit {
   constructor(private snippetService: SnippetService ) { }
 
   ngOnInit(): void {
-    this.getSnippetById("633a0ff463687b9dfbc6f721");
+    this.getSnippetById("633f4a9c60e5d9630f9494fe");
   }
 
   getSnippetById(snippetId: String){

@@ -9,9 +9,9 @@ public class CodeSnippet {
 	@Id
 	private String id;
 	
-	private String content;
+	private String[] content;
 	
-	public CodeSnippet(String id, String content) {
+	public CodeSnippet(String id, String[] content) {
 		this.id = id;
 		this.content = content;
 	}
@@ -24,11 +24,11 @@ public class CodeSnippet {
 		this.id = id;
 	}
 
-	public String getContent() {
+	public String[] getContent() {
 		return content;
 	}
 
-	public void setContent(String content) {
+	public void setContent(String[] content) {
 		this.content = content;
 	}
 	
