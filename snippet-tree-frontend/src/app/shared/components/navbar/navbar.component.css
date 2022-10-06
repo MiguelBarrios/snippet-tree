@@ -1,0 +1,18 @@
+.navigation-container{
+    background-color: rgb(23,27,33);   
+    color: white;
+    gap: 3%;
+    font-size: x-large;
+}
+
+#search-btn {
+    background-color: green;
+    color: white;
+    border-color: white;
+    /* border:none; */
+}
+
+#user-dropdown-btn {
+    color: green;
+    border-color: green;
+}
