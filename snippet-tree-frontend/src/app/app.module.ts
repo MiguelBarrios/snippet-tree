@@ -13,6 +13,10 @@ import { SnippetDisplayComponent } from './shared/components/snippet-display/sni
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard/user-dashboard.component';
 import { SnippetService } from './shared/services/snippet.service';
 import { FormsModule } from '@angular/forms';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
+
 
 
 @NgModule({
@@ -29,7 +33,9 @@ import { FormsModule } from '@angular/forms';
     NgbModule,
     HttpClientModule, 
     MatTooltipModule,
-    FormsModule
+    FormsModule, 
+    ClipboardModule, 
+    MatSnackBarModule
   ],
   providers: [SnippetService],
   bootstrap: [AppComponent]

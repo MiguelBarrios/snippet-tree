@@ -3,6 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Snippet } from '../../models/snippet';
 import { SnippetService } from '../../services/snippet.service';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {Clipboard} from '@angular/cdk/clipboard';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserDashboardComponent } from 'src/app/pages/user-dashboard/user-dashboard/user-dashboard.component';
+
 
 
 @Component({
@@ -14,7 +18,7 @@ export class SnippetDisplayComponent implements OnInit {
 
   editFlag: boolean = false;
   activeSnippet: Snippet  = new Snippet();
-
+  durationInSeconds = 5;
 
   closeResult = "";
 
@@ -23,7 +27,8 @@ export class SnippetDisplayComponent implements OnInit {
   snippetName: string = "";
   
 
-  constructor(private snippetService: SnippetService, private modalService: NgbModal) { }
+  constructor(private snippetService: SnippetService, private modalService: NgbModal, 
+    private clipboard: Clipboard, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getSnippetById("633f4a9c60e5d9630f9494fe");
@@ -132,5 +137,28 @@ export class SnippetDisplayComponent implements OnInit {
     )
     this.loadSnippet();
   }
+
+  copyToClipBoard(){
+    const pending = this.clipboard.beginCopy(this.snippetContent);
+    let remainingAttempts = 3;
+    const attempt = () => {
+      const result = pending.copy();
+      if (!result && --remainingAttempts) {
+        setTimeout(attempt);
+      } else {
+        // Remember to destroy when you're done!
+        pending.destroy();
+      }
+    };
+    attempt();
+    this.openSnackBar();
+  }
+
+  openSnackBar() {
+    this._snackBar.open("copied to clipboard", "✓", {
+      duration: 2000
+    });
+  }
+  
 
 }

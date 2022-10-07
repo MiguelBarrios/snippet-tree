@@ -3,7 +3,7 @@
     <div id="snippet-header" class="py-3 px-4 d-flex justify-content-between">
         <div class="display-6">merge sort</div>
         <div class="justify-content-end">
-            <img mat-raised-button matTooltip="copy snippet" class="svgimg mx-2" height="40px" width="40px" src="assets/img/copy.svg" alt="..." />
+            <img mat-raised-button matTooltip="copy snippet" (click)="copyToClipBoard()" class="svgimg mx-2" height="40px" width="40px" src="assets/img/copy.svg" alt="..." />
             <img mat-raised-button matTooltip="edit snippet" (click)="open(editSnippet)" class="svgimg mx-2" height="30px" width="30px" src="assets/img/edit.svg" alt="..." />
             <img mat-raised-button matTooltip="delete snippit" class="svgimg mx-2" height="30px" width="30px" src="assets/img/delete-svgrepo-com.svg" alt="..." />
         </div>
@@ -50,3 +50,5 @@
       <button class="btn btn-outline-success" (click)="updateSnippet(); modal.dismiss()">Save</button>
     </div>
   </ng-template>
+
+<!-- Snack Bar -->
