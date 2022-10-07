@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { TreeDisplayComponent } from './shared/components/tree-display/tree-display.component';
+import { TreeBrowserComponent } from './pages/user-dashboard/tree-browser/tree-browser.component';
  
 
  
@@ -26,7 +27,8 @@ import { TreeDisplayComponent } from './shared/components/tree-display/tree-disp
     NavbarComponent,
     SnippetDisplayComponent,
     UserDashboardComponent,
-    TreeDisplayComponent
+    TreeDisplayComponent,
+    TreeBrowserComponent
   ],
   imports: [
     BrowserModule,
