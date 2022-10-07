@@ -1,23 +1,17 @@
 <div id="snippet-display-container" class="">
+    <!-- Snippet Header -->
     <div id="snippet-header" class="py-3 px-4 d-flex justify-content-between">
         <div class="display-6">merge sort</div>
         <div class="justify-content-end">
-            <img mat-raised-button
-                matTooltip="copy"
-                class="svgimg mx-2" height="40px" width="40px" src="assets/img/copy.svg" alt="..." />
-            <img mat-raised-button
-                matTooltip="edit file"
-                class="svgimg mx-2" height="30px" width="30px" src="assets/img/edit.svg" alt="..." />
-
+            <img mat-raised-button matTooltip="copy snippet" class="svgimg mx-2" height="40px" width="40px" src="assets/img/copy.svg" alt="..." />
+            <img mat-raised-button matTooltip="edit snippet" (click)="open(editSnippet)" class="svgimg mx-2" height="30px" width="30px" src="assets/img/edit.svg" alt="..." />
+            <img mat-raised-button matTooltip="delete snippit" class="svgimg mx-2" height="30px" width="30px" src="assets/img/delete-svgrepo-com.svg" alt="..." />
         </div>
-
-
     </div>
 
+    <!-- Snippet Body -->
     <div id="snippet-body" class="d-flex my-2">
-
-
-        <!-- ;let indexOfelement=index; -->
+        <!-- Gutter -->
         <div id="gutter-container" class="gutter mx-5 d-flex flex-column">
             <ng-container *ngIf="activeSnippet">
                 <ng-container *ngIf="activeSnippet">
@@ -28,11 +22,30 @@
             </ng-container>
         </div>
 
-        <div id="code-display-container" class="code-display">
-
-        </div>
-
+        <!--  Code display -->
+        <div id="code-display-container" class="code-display"></div>
     </div>
 
 
 </div>
+
+
+ <!-- Templates -->
+   <!-- Register Modal -->
+   <ng-template #editSnippet let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Snippet Editor</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <label for="exampleFormControlInput1">Name</label>
+      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="snippet name">
+      
+      <label>Snippet</label>
+      <textarea class="form-control form-control-lg" id="exampleFormControlTextarea1" placeholder="data" rows="6"></textarea>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-success" (click)="modal.dismiss()">Save</button>
+    </div>
+  </ng-template>

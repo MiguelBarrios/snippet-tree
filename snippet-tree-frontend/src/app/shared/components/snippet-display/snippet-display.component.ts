@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Snippet } from '../../models/snippet';
 import { SnippetService } from '../../services/snippet.service';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-snippet-display',
@@ -10,10 +12,13 @@ import { SnippetService } from '../../services/snippet.service';
 })
 export class SnippetDisplayComponent implements OnInit {
 
+  editFlag: boolean = false;
   activeSnippet: Snippet | null  = null;
+
+  closeResult = "";
   
 
-  constructor(private snippetService: SnippetService ) { }
+  constructor(private snippetService: SnippetService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.getSnippetById("633f4a9c60e5d9630f9494fe");
@@ -69,5 +74,31 @@ export class SnippetDisplayComponent implements OnInit {
       }      
     }
   }
+
+  editSnippet(){
+
+  }
+
+  // Modal methods
+  open(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+
+
 
 }
