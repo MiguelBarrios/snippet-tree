@@ -13,9 +13,14 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class SnippetDisplayComponent implements OnInit {
 
   editFlag: boolean = false;
-  activeSnippet: Snippet | null  = null;
+  activeSnippet: Snippet  = new Snippet();
+
 
   closeResult = "";
+
+  // update snippet form
+  snippetContent:string = "";
+  snippetName: string = "";
   
 
   constructor(private snippetService: SnippetService, private modalService: NgbModal) { }
@@ -24,13 +29,22 @@ export class SnippetDisplayComponent implements OnInit {
     this.getSnippetById("633f4a9c60e5d9630f9494fe");
   }
 
+  snippetToString(snippet: Snippet)  {
+    let str = "";
+    for(let i of snippet.content){
+      str += i + "\n";
+    } 
+    return str;
+  }
+
+  
 
   getSnippetById(snippetId: String){
     console.log(snippetId);
     this.snippetService.getSnippetById(snippetId).subscribe(
       (snippet) => {
-        console.log(snippet);
         this.activeSnippet = snippet;
+        this.snippetContent = this.snippetToString(snippet);
         this.loadSnippet();
       },
       (error) => {
@@ -81,7 +95,12 @@ export class SnippetDisplayComponent implements OnInit {
 
   // Modal methods
   open(content: any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, 
+      {
+        size: 'xl', 
+        ariaLabelledBy: 'modal-basic-title',
+      }
+    ).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -98,7 +117,20 @@ export class SnippetDisplayComponent implements OnInit {
     }
   }
 
-
-
+  updateSnippet(){
+    let arr = this.snippetContent.split("\n");
+    this.activeSnippet.content = arr;
+    this.snippetService.saveSnippet(this.activeSnippet).subscribe(
+      (snippet) => {
+        this.activeSnippet = snippet;
+        this.snippetContent = this.snippetToString(snippet);
+        this.loadSnippet();
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+    this.loadSnippet();
+  }
 
 }

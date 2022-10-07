@@ -21,6 +21,14 @@ export class SnippetService {
         return throwError(err);
       })
     )
+  }
 
+  saveSnippet(snippet:Snippet){
+    var url = this.url;
+    return this.http.put<Snippet>(url, snippet).pipe(
+      catchError((err:any) => {
+        return throwError(err);
+      })
+    )
   }
 }

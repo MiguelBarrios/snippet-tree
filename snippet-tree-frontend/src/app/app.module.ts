@@ -12,6 +12,8 @@ import { NgbDropdown, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SnippetDisplayComponent } from './shared/components/snippet-display/snippet-display.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard/user-dashboard.component';
 import { SnippetService } from './shared/services/snippet.service';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { SnippetService } from './shared/services/snippet.service';
     BrowserAnimationsModule,
     NgbModule,
     HttpClientModule, 
-    MatTooltipModule
+    MatTooltipModule,
+    FormsModule
   ],
   providers: [SnippetService],
   bootstrap: [AppComponent]

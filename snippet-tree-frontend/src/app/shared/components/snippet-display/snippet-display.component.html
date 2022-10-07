@@ -42,10 +42,11 @@
       <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="snippet name">
       
       <label>Snippet</label>
-      <textarea class="form-control form-control-lg" id="exampleFormControlTextarea1" placeholder="data" rows="6"></textarea>
+      <textarea class="form-control form-control-lg" id="snippetInputTextArea" 
+        placeholder="data" rows="12" [(ngModel)]="snippetContent"></textarea>
 
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline-success" (click)="modal.dismiss()">Save</button>
+      <button class="btn btn-outline-success" (click)="updateSnippet(); modal.dismiss()">Save</button>
     </div>
   </ng-template>
