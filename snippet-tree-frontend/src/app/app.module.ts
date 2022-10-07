@@ -15,6 +15,7 @@ import { SnippetService } from './shared/services/snippet.service';
 import { FormsModule } from '@angular/forms';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { TreeDisplayComponent } from './shared/components/tree-display/tree-display.component';
  
 
  
@@ -24,7 +25,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     AppComponent,
     NavbarComponent,
     SnippetDisplayComponent,
-    UserDashboardComponent
+    UserDashboardComponent,
+    TreeDisplayComponent
   ],
   imports: [
     BrowserModule,
