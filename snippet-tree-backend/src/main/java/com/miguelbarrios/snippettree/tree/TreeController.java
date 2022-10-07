@@ -1,5 +1,6 @@
 package com.miguelbarrios.snippettree.tree;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/v1")
 public class TreeController {
+	
+	private static String username = "lochnessbarrios";
 	
 	@Autowired
 	private TreeService treeService;
@@ -48,10 +51,9 @@ public class TreeController {
 		return tree;
 	}
 	
-	@GetMapping("trees/users/{username}")
-	private List<Tree> getUserTrees(@PathVariable String username, HttpServletResponse response){
+	@GetMapping("trees/users")
+	private List<Tree> getUserTrees(HttpServletResponse response, Principal principal){
 		List<Tree> trees;
-		System.out.println(username);
 		try {
 			trees = treeService.getUserTrees(username);
 		}catch(Exception e) {
