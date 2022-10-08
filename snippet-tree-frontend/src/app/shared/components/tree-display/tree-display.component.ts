@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Tree } from 'src/app/pages/user-dashboard/tree-browser/models/tree';
 
 @Component({
   selector: 'app-tree-display',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TreeDisplayComponent implements OnInit {
 
+  treeName:string = "Tree Display";
+  selectedTree:Tree | null = null;
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  loadTree(tree:Tree){
+    let header = document.getElementById("treeDisplayHeader");
+    if(header){
+      header.textContent = tree.treename;
+    }
+  }
 }

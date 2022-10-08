@@ -41,7 +41,7 @@ import { TreeBrowserComponent } from './pages/user-dashboard/tree-browser/tree-b
     ClipboardModule, 
     MatSnackBarModule
   ],
-  providers: [SnippetService],
+  providers: [SnippetService, TreeDisplayComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
