@@ -1,0 +1,35 @@
+.node{
+    animation-duration: .15s;
+    animation-iteration-count: 3;
+    transform-origin: bottom;
+}
+
+.treeNode {
+    width: 100px;
+    height: 100px;
+    background: rgb(0, 74, 0);
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 3px;
+    border-color: rgb(211, 208, 208);
+}
+
+#addTreeNode{
+    color: green;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: white;
+    border-style: solid;
+    border-width: 3px;
+}
+
+.bounce:hover {
+    animation-name: bounce;
+    animation-timing-function: ease;
+}
+@keyframes bounce {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
