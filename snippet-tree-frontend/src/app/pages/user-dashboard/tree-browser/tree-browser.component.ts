@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TreeService } from 'src/app/shared/services/tree.service';
 
 @Component({
   selector: 'app-tree-browser',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TreeBrowserComponent implements OnInit {
 
-  constructor() { }
+  constructor(private treeService:TreeService) { }
 
   ngOnInit(): void {
+    this.getUserTrees();
+  }
+
+  getUserTrees(){
+    this.treeService.getUserTrees().subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
   }
 
 }
