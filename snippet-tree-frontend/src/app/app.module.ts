@@ -17,6 +17,8 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { TreeDisplayComponent } from './shared/components/tree-display/tree-display.component';
 import { TreeBrowserComponent } from './pages/user-dashboard/tree-browser/tree-browser.component';
+import {MatRadioModule} from '@angular/material/radio';
+
  
 
  
@@ -39,9 +41,10 @@ import { TreeBrowserComponent } from './pages/user-dashboard/tree-browser/tree-b
     MatTooltipModule,
     FormsModule, 
     ClipboardModule, 
-    MatSnackBarModule
+    MatSnackBarModule, 
+    MatRadioModule
   ],
   providers: [SnippetService, TreeDisplayComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent] 
 })
 export class AppModule { }
