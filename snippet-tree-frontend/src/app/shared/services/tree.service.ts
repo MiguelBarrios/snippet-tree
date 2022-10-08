@@ -25,6 +25,16 @@ export class TreeService {
     )
   }
 
+  createNewTree(tree:Tree){
+    var url = this.url;
+    return this.http.post<Tree>(url, tree, this.auth.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(err);
+      })
+    )
+  }
+
 
   
   

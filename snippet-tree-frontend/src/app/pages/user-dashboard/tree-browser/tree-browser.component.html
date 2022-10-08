@@ -4,12 +4,33 @@
     </div>
 
     <div class="d-flex justify-content-center my-3">
-        <div id="addTreeNode" class="d-flex align-items-center justify-content-center mx-1 bounce node">
+        <div id="addTreeNode" (click)="open(newTreeModal)"
+            class="d-flex align-items-center justify-content-center mx-1 bounce node">
             New Tree
         </div>
-        <div *ngFor="let tree of trees" class="treeNode d-flex align-items-center justify-content-center mx-1 bounce node" >
+        <div *ngFor="let tree of trees" 
+            class="treeNode d-flex align-items-center justify-content-center mx-1 bounce node" 
+            (click)="loadTree(tree)">
                 {{tree.treename}}
         </div>
     </div>
     
 </div>
+
+<!-- Modals -->
+   <!-- create new Tree Modal -->
+   <ng-template #newTreeModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Create new Tree</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <input type="email" [(ngModel)]="newTreeName"
+        class="form-control" id="exampleFormControlInput1" placeholder="Folder name">
+      
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-success" (click)="createNewTree(); modal.dismiss()">create</button>
+    </div>
+  </ng-template>

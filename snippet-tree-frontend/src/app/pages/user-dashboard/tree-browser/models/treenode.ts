@@ -1,10 +1,10 @@
 export class Treenode {
     name:string;
     isFile:boolean;
-    fileId:string;
+    fileId:string | null;
     items:Treenode[];
     
-    constructor(  name: string = "", isFile = false, fileId = "", items = []) {
+    constructor(  name: string = "", isFile = false, fileId = null, items = []) {
         this.name = name;
         this.isFile = isFile;
         this.fileId = fileId;

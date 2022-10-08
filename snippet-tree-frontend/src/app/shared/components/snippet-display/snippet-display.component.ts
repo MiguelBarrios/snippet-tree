@@ -6,6 +6,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {Clipboard} from '@angular/cdk/clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserDashboardComponent } from 'src/app/pages/user-dashboard/user-dashboard/user-dashboard.component';
+import { Tree } from 'src/app/pages/user-dashboard/tree-browser/models/tree';
 
 
 
@@ -41,7 +42,6 @@ export class SnippetDisplayComponent implements OnInit {
     } 
     return str;
   }
-
   
 
   getSnippetById(snippetId: String){
