@@ -3,8 +3,13 @@
         <div class="display-6">My Tree's</div>
     </div>
 
-    <div class="d-flex my-2">
-
+    <div class="d-flex justify-content-center my-3">
+        <div id="addTreeNode" class="d-flex align-items-center justify-content-center mx-1 bounce node">
+            New Tree
+        </div>
+        <div *ngFor="let tree of trees" class="treeNode d-flex align-items-center justify-content-center mx-1 bounce node" >
+                {{tree.treename}}
+        </div>
     </div>
     
 </div>
