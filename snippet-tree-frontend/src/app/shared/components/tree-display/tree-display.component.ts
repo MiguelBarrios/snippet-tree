@@ -20,6 +20,7 @@ export class TreeDisplayComponent implements OnInit {
   itemType: string = "file";
   itemList: string[] = ['file', 'directory'];
 
+  currentPath:string[] = [];
   activeDirectories: number = 1;
 
   constructor(private modalService: NgbModal, private snippetService:SnippetService,
@@ -36,6 +37,7 @@ export class TreeDisplayComponent implements OnInit {
   // Load selected tree in tree display
   loadTree(){
     let activeTree = this.treeService.getActiveTree();
+    this.currentPath = this.treeService.getCurrentPath();
     if(activeTree){
       let header = document.getElementById("treeDisplayHeader");
       if(header){
@@ -120,12 +122,15 @@ export class TreeDisplayComponent implements OnInit {
   //------------------------ Gen Dynamic components -------------------------
   // renders the root directory in the tree display
   renderDisplay(){
+    let selectedItemPath = this.treeService.getCurrentPath();
+    console.log("Selected items path: ");
+    console.log(selectedItemPath);
     let activeTree = this.treeService.getActiveTree();
     var mainContainer = document.getElementById("tree-display");
     if(mainContainer){
       mainContainer.innerHTML = "";
       if(activeTree){
-        let directoryContainer = this.buildDirectory(activeTree?.tree, "home-dir");
+        let directoryContainer = this.buildDirectory(activeTree?.tree, activeTree.tree.name);
         mainContainer.appendChild(directoryContainer);
       }
     }
@@ -142,11 +147,53 @@ export class TreeDisplayComponent implements OnInit {
       console.log("file is selected");
       this.snippetDisplay.getSnippetById(fileid, fileName);
       this.snippetService.turnOnDisplay();
+      return;
     }
-    else{
-      console.log("Directory is selected");
-      this.snippetService.turnOffDisplay();
+
+    // Load directory
+    console.log("Directory is selected");
+    this.snippetService.turnOffDisplay();
+    this.activeDirectories = path.length;
+    this.treeService.setCurrentPath(path);
+    console.log(path);
+    let activeTree = this.treeService.getActiveTree();
+    let root = activeTree?.tree;
+    console.log(root);
+    let display = document.getElementById('tree-display');
+    if(display){
+      display.innerHTML = '';
+      //build root directory
+      let rootContainer = this.buildDirectory(root, path[0]);
+      display.appendChild(rootContainer);
+
+      // Build rest of tree
+      let tree = root;
+      for(let i = 1; i < path.length; ++i){
+        let nextDirName = path[i];
+        let nextDir = this.findNextDirectory(tree, nextDirName);
+        
+        //build nextdir
+        if(nextDir){
+          console.log("Building directory: " + nextDirName);
+          console.log("Full Path: " + path.join('-'));
+          let dirContainer =  this.buildDirectory(nextDir, path.join('-'));
+          display.appendChild(dirContainer);
+        }
+        tree = nextDir;
+      }
+      
     }
+  }
+
+  findNextDirectory(tree:Treenode, target:string){
+    for(let i = 0; i < tree.items.length; ++i){
+      let cur = tree.items[i];
+      if(cur.name == target){
+        return cur;
+      }
+    }
+    return new Treenode();
+
   }
 
   // Build a HTML component for  a given directory
@@ -157,7 +204,7 @@ export class TreeDisplayComponent implements OnInit {
     let directoryItems = directoryInfo.items;
     for(let i = 0; i < directoryItems.length; ++i){
       let item = directoryItems[i];
-      let itemContainer = this.buildItemContainer(item, directoryInfo.name);
+      let itemContainer = this.buildItemContainer(item, id + "-" + item.name);
       directoryContainer.appendChild(itemContainer);
     }
 
@@ -175,7 +222,7 @@ export class TreeDisplayComponent implements OnInit {
     let itemContainer = document.createElement('button');
     itemContainer.textContent = item.name;
     itemContainer.addEventListener('click', this.loadSelectedItem(this),false);
-    let nodePath = path + '-' + item.name;
+    let nodePath = path;
     itemContainer.setAttribute('myParam.path', nodePath);
     itemContainer.setAttribute('myParam.type', itemType);
 
@@ -218,6 +265,10 @@ export class TreeDisplayComponent implements OnInit {
       } else {
         return `with: ${reason}`;
       }
+    }
+
+    getNumActiveDirectories(){
+      return this.counter(this.activeDirectories);
     }
 
     counter(i: number) {

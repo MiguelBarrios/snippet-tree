@@ -49,6 +49,7 @@ export class TreeBrowserComponent implements OnInit {
 
   loadTree(tree:Tree){
     this.treeService.setActiveTree(tree);
+    this.treeService.setCurrentPath([tree.treename]);
     this.treeDisplay.loadTree();
   }
 

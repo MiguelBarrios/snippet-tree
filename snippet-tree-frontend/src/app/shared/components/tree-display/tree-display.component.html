@@ -6,12 +6,16 @@
 
     <!-- tree display -->
     <div id="tree-display" class="d-flex my-2 row d-flex">
+
     </div>
 
     <div class="display-col d-flex">
-      <div class="d-flex justify-content-center col-2 m-2" *ngFor="let i of  counter(activeDirectories)">
+      <h1 *ngFor="let dir of currentPath">{{dir}}</h1>
+      <div class="d-flex justify-content-center col-2 m-2" *ngFor="let dir of currentPath">
         <img mat-raised-button matTooltip="create new file/folder" (click)="open(addItem)"
             class="svgimg mx-2" height="30px" width="30px" src="assets/img/add-new.svg" alt="..." />
+            <h1>{{dir}}</h1>
+
       </div>    
     </div>
 
