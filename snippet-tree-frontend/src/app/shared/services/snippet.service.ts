@@ -9,9 +9,19 @@ import { Snippet } from '../models/snippet';
 })
 export class SnippetService {
 
+  private activeSnippet:Snippet | null = null;
+
   private url = environment.baseUrl + 'api/v1/snippets'
 
   constructor(private http:HttpClient) { }
+
+  getActiveSnippet(){
+    return this.activeSnippet;
+  }
+
+  setActiveSnippet(snippet:Snippet){
+    this.activeSnippet = snippet;
+  }
 
   getSnippetById(snippetId: String){
     var url = this.url + '/' + snippetId;

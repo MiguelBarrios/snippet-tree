@@ -45,6 +45,16 @@ export class TreeService {
     )
   }
 
+  saveActiveTree(){
+    var url = this.url;
+    return this.http.put(url, this.activeTree,  this.auth.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(err);
+      })
+    )
+  }
+
 
   
   
