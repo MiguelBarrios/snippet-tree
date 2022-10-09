@@ -22,12 +22,16 @@ export class TreeDisplayComponent implements OnInit {
   itemType: string = "file";
   itemList: string[] = ['file', 'directory'];
 
-  activeDirectories: number = 2;
+  activeDirectories: number = 1;
 
   constructor(private modalService: NgbModal, private snippetService:SnippetService,
     private snippetDisplay: SnippetDisplayComponent, private treeService:TreeService) { }
 
   ngOnInit(): void {
+  }
+
+  loadSelectedItem(){
+    console.log("clicked????");
   }
 
   loadCreatedItem(item:Treenode){
@@ -133,29 +137,9 @@ export class TreeDisplayComponent implements OnInit {
       directoryContainer.appendChild(itemContainer);
     }
 
-    //add add item container
-    
-    var htmlString = `<div class="d-flex justify-content-center m-2 w-100">
-    <img mat-raised-button matTooltip="create new file/folder" (click)="open(addItem)"
-        class="svgimg mx-2" height="30px" width="30px" src="assets/img/add-new.svg" alt="..." />
-     </div>
-    </div>`
-    let addContainer = this.createElementFromHTML(htmlString);
-    directoryContainer.appendChild(addContainer);
-
-
-
     return directoryContainer;
   }
 
-  createElementFromHTML(htmlString:string) {
-    var div = document.createElement('div');
-    div.innerHTML = htmlString.trim();
-  
-    // Change this to div.childNodes to support multiple top-level nodes.
-    // return div.firstChild;
-    return div;
-  }
 
 
 
@@ -167,6 +151,7 @@ export class TreeDisplayComponent implements OnInit {
     // item container
     let itemContainer = document.createElement('button');
     itemContainer.textContent = item.name;
+    itemContainer.addEventListener('click',this.loadSelectedItem );
 
     if(item.file){
       itemContainer.classList.add('btn', 'btn-outline-success', 'w-100');
@@ -179,8 +164,6 @@ export class TreeDisplayComponent implements OnInit {
 
     return container;
   }
-
-
 
 
   // Modal functions
