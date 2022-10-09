@@ -70,8 +70,7 @@ export class TreeDisplayComponent implements OnInit {
       this.snippetService.addSnippet(snippet).subscribe(
         (snippet) => {      
           this.createnNewSnippet(snippet);
-          console.log("Saved snippet");
-          console.log(snippet);
+          
         },
         (error) => {
           console.log(error);
@@ -93,6 +92,7 @@ export class TreeDisplayComponent implements OnInit {
     this.treeService.saveActiveTree().subscribe(
       (data) => {
         this.treeService.setActiveTree(data);
+        this.loadTree();
       },
       (error) => {
         console.log(error);

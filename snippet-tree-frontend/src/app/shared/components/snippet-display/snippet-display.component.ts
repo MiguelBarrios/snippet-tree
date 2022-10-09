@@ -174,6 +174,7 @@ export class SnippetDisplayComponent implements OnInit {
       this.snippetService.saveSnippet(activeSnippet).subscribe(
         (snippet) => {
           this.snippetContent = this.snippetToString(snippet);
+          this.snippetService.setActiveSnippet(snippet, this.snippetService.getActiveSnippetName());
           this.loadSnippet();
         },
         (error) => {
