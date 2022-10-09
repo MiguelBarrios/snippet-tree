@@ -30,9 +30,6 @@ export class TreeDisplayComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  loadSelectedItem(){
-    console.log("clicked????");
-  }
 
   loadCreatedItem(item:Treenode){
     console.log(item);
@@ -139,8 +136,13 @@ export class TreeDisplayComponent implements OnInit {
 
     return directoryContainer;
   }
-
-
+  
+   loadSelectedItem = function(someVar: any) {
+    return function curried_func(e: any) {
+      console.log(someVar);
+      console.log(e.target);
+    }
+}
 
 
   buildItemContainer(item:Treenode){
@@ -151,7 +153,8 @@ export class TreeDisplayComponent implements OnInit {
     // item container
     let itemContainer = document.createElement('button');
     itemContainer.textContent = item.name;
-    itemContainer.addEventListener('click',this.loadSelectedItem );
+    itemContainer.addEventListener('click', this.loadSelectedItem(item.name),false);
+    itemContainer.setAttribute('myParam', "it's me");
 
     if(item.file){
       itemContainer.classList.add('btn', 'btn-outline-success', 'w-100');
