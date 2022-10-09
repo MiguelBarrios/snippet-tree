@@ -49,14 +49,14 @@ export class TreeBrowserComponent implements OnInit {
   }
 
   loadTree(tree:Tree){
-    this.treeDisplay.loadTree(tree);
+    this.treeService.setActiveTree(tree);
+    this.treeDisplay.loadTree();
   }
 
   createNewTree(){
     console.log("creating new tree");
     let treeNode = new Treenode(this.newTreeName, false, null, []);
     let newTree = new Tree(null, null, this.newTreeName, treeNode);
-    console.log(newTree);
     this.saveNewTree(newTree);
   }
 

@@ -72,6 +72,19 @@ export class SnippetDisplayComponent implements OnInit {
     return count;
   }
 
+  createNewSnippet(snippet:Snippet ){
+    this.snippetService.addSnippet(snippet).subscribe(
+      (snippet) => {
+        console.log(snippet);
+        this.activeSnippet = snippet;
+        this.loadSnippet();
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+  }
+
   loadSnippet(){
     if(this.activeSnippet){
       var space = document.createTextNode("\u00A0");
