@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { main } from '@popperjs/core';
 import { Tree } from 'src/app/pages/user-dashboard/tree-browser/models/tree';
 import { Treenode } from 'src/app/pages/user-dashboard/tree-browser/models/treenode';
 import { Snippet } from '../../models/snippet';
@@ -32,8 +31,7 @@ export class TreeDisplayComponent implements OnInit {
 
 
   loadCreatedItem(item:Treenode){
-    console.log(item);
-    console.log(this.selectedTree);
+    
   }
 
   createNewItem(){
@@ -74,7 +72,6 @@ export class TreeDisplayComponent implements OnInit {
   }
 
   createNewDirectory(){
-    console.log("Creating new Directory");
     let directoryName = this.newItemName;
     let item = new Treenode(directoryName, false, null);
     let activeTree = this.treeService.getActiveTree();
@@ -130,22 +127,26 @@ export class TreeDisplayComponent implements OnInit {
     let directoryItems = directoryInfo.items;
     for(let i = 0; i < directoryItems.length; ++i){
       let item = directoryItems[i];
-      let itemContainer = this.buildItemContainer(item);
+      let itemContainer = this.buildItemContainer(item, "home");
       directoryContainer.appendChild(itemContainer);
     }
 
     return directoryContainer;
   }
   
-   loadSelectedItem = function(someVar: any) {
-    return function curried_func(e: any) {
-      console.log(someVar);
-      console.log(e.target);
-    }
-}
+  //  loadSelectedItem = function(someVar: any) {
+  //     return function curried_func(e: any) {
+  //       console.log(someVar);
+  //       console.log(e.target);
+  //     }
+  // }
+
+  loadSelectedItem(e:any){
+    console.log(e.target);
+  }
 
 
-  buildItemContainer(item:Treenode){
+  buildItemContainer(item:Treenode, path:string){
     // outer container
     let container = document.createElement('div');
     container.classList.add('directory', 'm-2', 'w-100');
@@ -153,7 +154,8 @@ export class TreeDisplayComponent implements OnInit {
     // item container
     let itemContainer = document.createElement('button');
     itemContainer.textContent = item.name;
-    itemContainer.addEventListener('click', this.loadSelectedItem(item.name),false);
+    itemContainer.addEventListener('click', this.loadSelectedItem,false);
+    let nodePath = path + '-' + item.name;
     itemContainer.setAttribute('myParam', "it's me");
 
     if(item.file){

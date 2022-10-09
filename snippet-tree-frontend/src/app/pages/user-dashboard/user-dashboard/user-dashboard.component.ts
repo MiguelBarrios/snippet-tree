@@ -16,8 +16,8 @@ export class UserDashboardComponent implements OnInit {
     let user = new User();
     this.authService.login("lochnessbarrios", "password").subscribe(
       (data) => {
-        console.log("Crendentials saved");
-        console.log(data);
+        // console.log("Crendentials saved");
+        // console.log(data);
       },
       (error) => {
         console.log(error);
