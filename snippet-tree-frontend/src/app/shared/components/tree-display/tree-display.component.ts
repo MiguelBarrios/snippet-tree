@@ -32,7 +32,36 @@ export class TreeDisplayComponent implements OnInit {
   loadCreatedItem(item:Treenode){
     
   }
+  
+  // Load selected tree in tree display
+  loadTree(){
+    let activeTree = this.treeService.getActiveTree();
+    if(activeTree){
+      let header = document.getElementById("treeDisplayHeader");
+      if(header){
+        header.textContent = activeTree.treename;
+      }
+      this.renderDisplay();
+    }
+  }
 
+  loadSelectedItem = function(component:TreeDisplayComponent) {
+      return function curried_func(e: any) {
+        console.log(e.target);
+        let path = e.target.getAttribute('myparam.path');
+        let type = e.target.getAttribute('myparam.type');
+        let fileid = null;
+        if(type == 'file'){
+          fileid = e.target.getAttribute('myParam.fileid');
+        }
+
+        component.renderDisplay2(path, type, fileid);
+      }
+  }
+
+
+  //------------------------ Tree Modification functions -------------------------
+  // add a new item to the active tree
   createNewItem(){
     if(this.itemType == "file"){
       let snippet = new Snippet(null, []);
@@ -41,8 +70,7 @@ export class TreeDisplayComponent implements OnInit {
       this.snippetService.addSnippet(snippet).subscribe(
         (snippet) => {      
           this.createnNewSnippet(snippet);
-          console.log("Saved snippet");
-          console.log(snippet);
+          
         },
         (error) => {
           console.log(error);
@@ -54,15 +82,17 @@ export class TreeDisplayComponent implements OnInit {
     }
   }
 
+  // Add a new snippet item to the active tree
   createnNewSnippet(snippet:Snippet){
     let snippetName = this.newItemName;
-    this.snippetService.setActiveSnippet(snippet);
+    this.snippetService.setActiveSnippet(snippet, snippetName);
     let item = new Treenode(snippetName, true, snippet.id, []);
     let activeTree = this.treeService.getActiveTree();
     activeTree?.tree.items.push(item);
     this.treeService.saveActiveTree().subscribe(
       (data) => {
         this.treeService.setActiveTree(data);
+        this.loadTree();
       },
       (error) => {
         console.log(error);
@@ -70,6 +100,7 @@ export class TreeDisplayComponent implements OnInit {
     )
   }
 
+  // Add a new directory item into active tree
   createNewDirectory(){
     let directoryName = this.newItemName;
     let item = new Treenode(directoryName, false, null);
@@ -78,30 +109,16 @@ export class TreeDisplayComponent implements OnInit {
     this.treeService.saveActiveTree().subscribe(
       (data) => {
         this.treeService.setActiveTree(data);
+        this.loadTree();
       },
       (error) => {
         console.log(error);
       }
     )
-
   }
 
-  
-
-  loadTree(){
-    let activeTree = this.treeService.getActiveTree();
-    if(activeTree){
-      let header = document.getElementById("treeDisplayHeader");
-      if(header){
-        header.textContent = activeTree.treename;
-      }
-      this.renderDisplay();
-
-    }
-
-  }
-
-  
+  //------------------------ Gen Dynamic components -------------------------
+  // renders the root directory in the tree display
   renderDisplay(){
     let activeTree = this.treeService.getActiveTree();
     var mainContainer = document.getElementById("tree-display");
@@ -111,18 +128,32 @@ export class TreeDisplayComponent implements OnInit {
         let directoryContainer = this.buildDirectory(activeTree?.tree, "home-dir");
         mainContainer.appendChild(directoryContainer);
       }
-      
-      
     }
   }
 
+  //Render the tree display based on provided path
+  renderDisplay2(itemPath:string, type:string, fileid:string){
+
+    let path = itemPath.split('-');
+
+    // Selected item is a file
+    if(type == 'file'){
+      let fileName = path[path.length - 1];
+      console.log("file is selected");
+      this.snippetDisplay.getSnippetById(fileid, fileName);
+      this.snippetService.turnOnDisplay();
+    }
+    else{
+      console.log("Directory is selected");
+      this.snippetService.turnOffDisplay();
+    }
+  }
+
+  // Build a HTML component for  a given directory
   buildDirectory(directoryInfo:Treenode, id: string){
     let directoryContainer = document.createElement("div");
     directoryContainer.setAttribute("id", id);
     directoryContainer.classList.add("display-col", "col-2");
-    console.log("Directory info");
-    console.log(directoryInfo);
-
     let directoryItems = directoryInfo.items;
     for(let i = 0; i < directoryItems.length; ++i){
       let item = directoryItems[i];
@@ -132,19 +163,8 @@ export class TreeDisplayComponent implements OnInit {
 
     return directoryContainer;
   }
-  
 
-  loadSelectedItem = function(treeService: TreeService) {
-    return function curried_func(e: any) {
-      console.log(e.target);
-      let activeTree = treeService.getActiveTree();
-      console.log(activeTree);
-
-    }
-}
-
-
-
+  // Creates a HTML componet for a given treenode
   buildItemContainer(item:Treenode, path:string){
     // outer container
     let container = document.createElement('div');
@@ -154,7 +174,7 @@ export class TreeDisplayComponent implements OnInit {
     // item container
     let itemContainer = document.createElement('button');
     itemContainer.textContent = item.name;
-    itemContainer.addEventListener('click', this.loadSelectedItem(this.treeService),false);
+    itemContainer.addEventListener('click', this.loadSelectedItem(this),false);
     let nodePath = path + '-' + item.name;
     itemContainer.setAttribute('myParam.path', nodePath);
     itemContainer.setAttribute('myParam.type', itemType);
@@ -162,7 +182,7 @@ export class TreeDisplayComponent implements OnInit {
     if(item.file){
       itemContainer.classList.add('btn', 'btn-outline-success', 'w-100');
       if(item.fileId){
-        // itemContainer.setAttribute('myParam.fileid', item.fileId);
+        itemContainer.setAttribute('myParam.fileid', item.fileId);
       }
       
     } 
@@ -176,8 +196,7 @@ export class TreeDisplayComponent implements OnInit {
   }
 
 
-  // Modal functions
-    // Modal methods
+  // ---------------------- Modal functions ----------------------------------
     open(content: any) {
       this.modalService.open(content, 
         {
