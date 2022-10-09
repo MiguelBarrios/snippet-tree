@@ -47,12 +47,12 @@ export class SnippetDisplayComponent implements OnInit {
     console.log(snippetId);
     this.snippetService.getSnippetById(snippetId).subscribe(
       (snippet) => {
-        this.activeSnippet = snippet;
+        this.snippetService.setActiveSnippet(snippet);
         this.snippetContent = this.snippetToString(snippet);
         this.loadSnippet();
       },
       (error) => {
-
+        console.log(error);
       }
     )
   }
@@ -85,24 +85,39 @@ export class SnippetDisplayComponent implements OnInit {
   }
 
   loadSnippet(){
-    if(this.activeSnippet){
+    let activeSnippet = this.snippetService.getActiveSnippet();
+    if(activeSnippet){
       var space = document.createTextNode("\u00A0");
 
+      // Load Snippet
       var element = document.getElementById("code-display-container");
       if(element){
         element.innerHTML = '';
-
-        for(var line of this.activeSnippet.content){
-
+        for(var line of activeSnippet.content){
           let leadingSpaces = this.numLeadingSpaces(line);
           const spaces = ' '.repeat(leadingSpaces * 2);
-
-          
           let div = document.createElement('div');
           div.textContent = spaces + line;          
           element.appendChild(div);
         }
       }      
+
+      //create gutter
+      var gutterContainer = document.getElementById('gutter-container');
+      if(gutterContainer){
+        gutterContainer.innerHTML = "";
+        
+        for(let i = 1; i <= this.activeSnippet.content.length; ++i){
+          console.log("added row");
+          let row = document.createElement('div');
+          row.classList.add('d-flex', 'justify-content-end')
+          row.textContent = i.toString();
+          gutterContainer.appendChild(row);
+        }
+        
+
+      }
+
     }
   }
 
@@ -112,6 +127,14 @@ export class SnippetDisplayComponent implements OnInit {
 
   // Modal methods
   open(content: any) {
+    let snippet = this.snippetService.getActiveSnippet();
+    if(snippet){
+      this.snippetContent = this.snippetToString(snippet);
+    }
+    
+    console.log("Active snippet");
+    console.log(this.activeSnippet);
+    console.log(this.snippetContent);
     this.modalService.open(content, 
       {
         size: 'xl', 
