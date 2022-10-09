@@ -12,10 +12,20 @@ import { Tree } from 'src/app/pages/user-dashboard/tree-browser/models/tree';
 })
 export class TreeService {
 
-  private activeTree: Tree | null = null;
+  private activeTree: Tree  = new Tree();
+
+  private currentPath: string[] = [];
 
   private url = environment.baseUrl + 'api/v1/trees';
   constructor(private http:HttpClient, private auth: AuthService) { }
+
+  getCurrentPath(){
+    return this.currentPath;
+  }
+
+  setCurrentPath(path:string[]){
+    this.currentPath = path;
+  }
 
   setActiveTree(tree:Tree){
     this.activeTree = tree;
@@ -47,13 +57,15 @@ export class TreeService {
 
   saveActiveTree(){
     var url = this.url;
-    return this.http.put(url, this.activeTree,  this.auth.getHttpOptions()).pipe(
+    return this.http.put<Tree>(url, this.activeTree,  this.auth.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(err);
       })
     )
   }
+
+
 
 
   

@@ -28,7 +28,7 @@ export class TreeBrowserComponent implements OnInit {
     this.treeService.getUserTrees().subscribe(
       (data) => {
         this.trees = data;
-        console.log(this.trees);
+        // console.log(this.trees);
       },
       (error) => {
         console.log(error);
@@ -39,7 +39,6 @@ export class TreeBrowserComponent implements OnInit {
   saveNewTree(tree:Tree){
     this.treeService.createNewTree(tree).subscribe(
       (data) => {
-        console.log(data);
         this.trees.push(data);
       },
       (error) => {
@@ -50,6 +49,7 @@ export class TreeBrowserComponent implements OnInit {
 
   loadTree(tree:Tree){
     this.treeService.setActiveTree(tree);
+    this.treeService.setCurrentPath([tree.treename]);
     this.treeDisplay.loadTree();
   }
 

@@ -17,8 +17,8 @@ import { Tree } from 'src/app/pages/user-dashboard/tree-browser/models/tree';
 })
 export class SnippetDisplayComponent implements OnInit {
 
+  activeSnippet: boolean = false;
   editFlag: boolean = false;
-  activeSnippet: Snippet  = new Snippet();
   durationInSeconds = 5;
 
   closeResult = "";
@@ -32,7 +32,10 @@ export class SnippetDisplayComponent implements OnInit {
     private clipboard: Clipboard, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.getSnippetById("633f4a9c60e5d9630f9494fe");
+  }
+
+  display(){
+    return this.snippetService.getDisplay();
   }
 
   snippetToString(snippet: Snippet)  {
@@ -42,18 +45,23 @@ export class SnippetDisplayComponent implements OnInit {
     } 
     return str;
   }
+
+  getItemName(){
+    return this.snippetService.getActiveSnippetName();
+  }
   
 
-  getSnippetById(snippetId: String){
+  getSnippetById(snippetId: String, name: string){
     console.log(snippetId);
     this.snippetService.getSnippetById(snippetId).subscribe(
       (snippet) => {
-        this.activeSnippet = snippet;
+        this.snippetService.setActiveSnippet(snippet, name);
         this.snippetContent = this.snippetToString(snippet);
+        this.snippetName = name;
         this.loadSnippet();
       },
       (error) => {
-
+        console.log(error);
       }
     )
   }
@@ -76,7 +84,6 @@ export class SnippetDisplayComponent implements OnInit {
     this.snippetService.addSnippet(snippet).subscribe(
       (snippet) => {
         console.log(snippet);
-        this.activeSnippet = snippet;
         this.loadSnippet();
       },
       (error) => {
@@ -86,24 +93,39 @@ export class SnippetDisplayComponent implements OnInit {
   }
 
   loadSnippet(){
-    if(this.activeSnippet){
+    let activeSnippet = this.snippetService.getActiveSnippet();
+    if(activeSnippet){
       var space = document.createTextNode("\u00A0");
 
+      // Load Snippet
       var element = document.getElementById("code-display-container");
       if(element){
         element.innerHTML = '';
-
-        for(var line of this.activeSnippet.content){
-
+        for(var line of activeSnippet.content){
           let leadingSpaces = this.numLeadingSpaces(line);
           const spaces = ' '.repeat(leadingSpaces * 2);
-
-          
           let div = document.createElement('div');
           div.textContent = spaces + line;          
           element.appendChild(div);
         }
       }      
+
+      //create gutter
+      var gutterContainer = document.getElementById('gutter-container');
+      if(gutterContainer){
+        gutterContainer.innerHTML = "";
+        
+        for(let i = 1; i <= activeSnippet.content.length; ++i){
+          console.log("added row");
+          let row = document.createElement('div');
+          row.classList.add('d-flex', 'justify-content-end')
+          row.textContent = i.toString();
+          gutterContainer.appendChild(row);
+        }
+        
+
+      }
+
     }
   }
 
@@ -113,6 +135,15 @@ export class SnippetDisplayComponent implements OnInit {
 
   // Modal methods
   open(content: any) {
+    let snippet = this.snippetService.getActiveSnippet();
+    let snippetName = this.snippetService.getActiveSnippetName();
+    console.log("snippet name: ");
+    console.log(snippetName);
+    if(snippet){
+      this.snippetContent = this.snippetToString(snippet);
+      this.snippetName = snippetName;
+    }
+
     this.modalService.open(content, 
       {
         size: 'xl', 
@@ -136,19 +167,24 @@ export class SnippetDisplayComponent implements OnInit {
   }
 
   updateSnippet(){
-    let arr = this.snippetContent.split("\n");
-    this.activeSnippet.content = arr;
-    this.snippetService.saveSnippet(this.activeSnippet).subscribe(
-      (snippet) => {
-        this.activeSnippet = snippet;
-        this.snippetContent = this.snippetToString(snippet);
-        this.loadSnippet();
-      },
-      (error) => {
-        console.log(error);
-      }
-    )
-    this.loadSnippet();
+    let activeSnippet = this.snippetService.getActiveSnippet();
+    if(activeSnippet){
+      let arr = this.snippetContent.split("\n");
+      activeSnippet.content = arr;
+      this.snippetService.saveSnippet(activeSnippet).subscribe(
+        (snippet) => {
+          this.snippetContent = this.snippetToString(snippet);
+          this.snippetService.setActiveSnippet(snippet, this.snippetService.getActiveSnippetName());
+          this.loadSnippet();
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+      this.loadSnippet();
+
+    }
+
   }
 
   copyToClipBoard(){

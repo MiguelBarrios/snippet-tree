@@ -1,7 +1,9 @@
-<div class="display-container">
+
+
+<div class="display-container" *ngIf="display()">
     <!-- Snippet Header -->
     <div  class="container-header py-3 px-4 d-flex justify-content-between">
-        <div class="display-6">merge sort</div>
+        <div class="display-6">{{getItemName()}}</div>
         <div class="justify-content-end">
             <img mat-raised-button matTooltip="copy snippet" (click)="copyToClipBoard()" class="svgimg mx-2" height="40px" width="40px" src="assets/img/copy.svg" alt="..." />
             <img mat-raised-button matTooltip="edit snippet" (click)="open(editSnippet)" class="svgimg mx-2" height="30px" width="30px" src="assets/img/edit.svg" alt="..." />
@@ -13,13 +15,6 @@
     <div id="snippet-body" class="d-flex my-2">
         <!-- Gutter -->
         <div id="gutter-container" class="gutter mx-5 d-flex flex-column">
-            <ng-container *ngIf="activeSnippet">
-                <ng-container *ngIf="activeSnippet">
-                    <div class="d-flex justify-content-end" *ngFor="let line of activeSnippet.content;let i=index;">
-                        {{i + 1}}
-                    </div>
-                </ng-container>
-            </ng-container>
         </div>
 
         <!--  Code display -->
@@ -39,7 +34,7 @@
     </div>
     <div class="modal-body">
       <label for="exampleFormControlInput1">Name</label>
-      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="snippet name">
+      <input type="email" class="form-control" id="exampleFormControlInput1"  [(ngModel)]="snippetName" placeholder="snippet name">
       
       <label>Snippet</label>
       <textarea class="form-control form-control-lg" id="snippetInputTextArea" 

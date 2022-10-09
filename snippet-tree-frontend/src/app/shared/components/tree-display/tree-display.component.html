@@ -2,25 +2,21 @@
     <!-- Snippet Header -->
     <div class="container-header py-3 px-4 d-flex justify-content-between">
         <div id="treeDisplayHeader" class="display-6">{{treeName}}</div>
-
     </div>
 
     <!-- tree display -->
     <div id="tree-display" class="d-flex my-2 row d-flex">
-        <div id="home-dir" class="display-col col-1">
-            <!-- <div class="directory m-2 w-100">
-                <button class="btn btn-outline-primary w-100">Directory</button>
-            </div>
-            <div class="file m-2 w-100">
-                <button class="btn btn-outline-success w-100">File</button>
-            </div> -->
 
-            <div class="d-flex justify-content-center m-2 w-100">
-                <img mat-raised-button matTooltip="create new file/folder" (click)="open(addItem)"
-                    class="svgimg mx-2" height="30px" width="30px" src="assets/img/add-new.svg" alt="..." />
-            </div>
-        </div>
+    </div>
 
+    <div class="display-col d-flex">
+      <h1 *ngFor="let dir of currentPath">{{dir}}</h1>
+      <div class="d-flex justify-content-center col-2 m-2" *ngFor="let dir of currentPath">
+        <img mat-raised-button matTooltip="create new file/folder" (click)="open(addItem)"
+            class="svgimg mx-2" height="30px" width="30px" src="assets/img/add-new.svg" alt="..." />
+            <h1>{{dir}}</h1>
+
+      </div>    
     </div>
 
 
