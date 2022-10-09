@@ -15,7 +15,6 @@ import { SnippetDisplayComponent } from '../snippet-display/snippet-display.comp
 export class TreeDisplayComponent implements OnInit {
 
   treeName:string = "Tree Display";
-  selectedTree:Tree | null = null;
   closeResult = "";
   newItemName: string = "";
   itemType: string = "file";
@@ -90,11 +89,11 @@ export class TreeDisplayComponent implements OnInit {
   
 
   loadTree(){
-    this.selectedTree = this.treeService.getActiveTree();
-    if(this.selectedTree){
+    let activeTree = this.treeService.getActiveTree();
+    if(activeTree){
       let header = document.getElementById("treeDisplayHeader");
       if(header){
-        header.textContent = this.selectedTree.treename;
+        header.textContent = activeTree.treename;
       }
       this.renderDisplay();
 
@@ -127,39 +126,45 @@ export class TreeDisplayComponent implements OnInit {
     let directoryItems = directoryInfo.items;
     for(let i = 0; i < directoryItems.length; ++i){
       let item = directoryItems[i];
-      let itemContainer = this.buildItemContainer(item, "home");
+      let itemContainer = this.buildItemContainer(item, directoryInfo.name);
       directoryContainer.appendChild(itemContainer);
     }
 
     return directoryContainer;
   }
   
-  //  loadSelectedItem = function(someVar: any) {
-  //     return function curried_func(e: any) {
-  //       console.log(someVar);
-  //       console.log(e.target);
-  //     }
-  // }
 
-  loadSelectedItem(e:any){
-    console.log(e.target);
-  }
+  loadSelectedItem = function(treeService: TreeService) {
+    return function curried_func(e: any) {
+      console.log(e.target);
+      let activeTree = treeService.getActiveTree();
+      console.log(activeTree);
+
+    }
+}
+
 
 
   buildItemContainer(item:Treenode, path:string){
     // outer container
     let container = document.createElement('div');
     container.classList.add('directory', 'm-2', 'w-100');
+    let itemType = (item.file) ? 'file' : 'directory';
 
     // item container
     let itemContainer = document.createElement('button');
     itemContainer.textContent = item.name;
-    itemContainer.addEventListener('click', this.loadSelectedItem,false);
+    itemContainer.addEventListener('click', this.loadSelectedItem(this.treeService),false);
     let nodePath = path + '-' + item.name;
-    itemContainer.setAttribute('myParam', "it's me");
+    itemContainer.setAttribute('myParam.path', nodePath);
+    itemContainer.setAttribute('myParam.type', itemType);
 
     if(item.file){
       itemContainer.classList.add('btn', 'btn-outline-success', 'w-100');
+      if(item.fileId){
+        // itemContainer.setAttribute('myParam.fileid', item.fileId);
+      }
+      
     } 
     else{
       itemContainer.classList.add('btn', 'btn-outline-primary', 'w-100')
