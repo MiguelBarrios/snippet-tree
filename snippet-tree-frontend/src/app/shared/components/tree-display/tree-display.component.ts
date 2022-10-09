@@ -7,6 +7,7 @@ import { SnippetService } from '../../services/snippet.service';
 import { TreeService } from '../../services/tree.service';
 import { SnippetDisplayComponent } from '../snippet-display/snippet-display.component';
 
+
 @Component({
   selector: 'app-tree-display',
   templateUrl: './tree-display.component.html',
@@ -21,18 +22,15 @@ export class TreeDisplayComponent implements OnInit {
   itemList: string[] = ['file', 'directory'];
 
   currentPath:string[] = [];
-  activeDirectories: number = 1;
 
   constructor(private modalService: NgbModal, private snippetService:SnippetService,
     private snippetDisplay: SnippetDisplayComponent, private treeService:TreeService) { }
 
   ngOnInit(): void {
+    this.treeService = this.treeService;
   }
 
 
-  loadCreatedItem(item:Treenode){
-    
-  }
   
   // Load selected tree in tree display
   loadTree(){
@@ -134,6 +132,8 @@ export class TreeDisplayComponent implements OnInit {
         mainContainer.appendChild(directoryContainer);
       }
     }
+
+    this.buildAddFileGutter(selectedItemPath);
   }
 
   //Render the tree display based on provided path
@@ -153,7 +153,6 @@ export class TreeDisplayComponent implements OnInit {
     // Load directory
     console.log("Directory is selected");
     this.snippetService.turnOffDisplay();
-    this.activeDirectories = path.length;
     this.treeService.setCurrentPath(path);
     console.log(path);
     let activeTree = this.treeService.getActiveTree();
@@ -183,6 +182,8 @@ export class TreeDisplayComponent implements OnInit {
       }
       
     }
+
+    this.buildAddFileGutter(path);
   }
 
   findNextDirectory(tree:Treenode, target:string){
@@ -242,6 +243,37 @@ export class TreeDisplayComponent implements OnInit {
     return container;
   }
 
+  //Create Add File Gutter
+  buildAddFileGutter(directories: string[]){
+    let container = document.getElementById('addFileGutter');
+    if(container){
+      container.classList.add('display-col',  'd-flex');
+      container.innerHTML = '';
+      console.log("^^");
+      for(let i = 0; i < directories.length; ++i){
+        let itemContainer = this.buildAddItemContainer()
+        container.appendChild(itemContainer);
+      }
+    }
+  }
+  //Create Add File Container
+  buildAddItemContainer(){
+    let container = document.createElement('div');
+    container.classList.add('d-flex', 'justify-content-center', 'col-2', 'm-2');
+
+    let img = document.createElement('img');
+    img.classList.add('svgimg', 'mx-2');
+    img.setAttribute('height', '30px');
+    img.setAttribute('width', '30px');
+    img.setAttribute('src', 'assets/img/add-folder.svg');
+    container.appendChild(img);
+    return container;
+  }
+
+//  <div class="d-flex justify-content-center col-2 m-2">
+//       <img  class="svgimg mx-2" height="30px" width="30px" src="assets/img/add-folder.svg" alt="..." />
+//  </div>   
+
 
   // ---------------------- Modal functions ----------------------------------
     open(content: any) {
@@ -266,12 +298,4 @@ export class TreeDisplayComponent implements OnInit {
         return `with: ${reason}`;
       }
     }
-
-    getNumActiveDirectories(){
-      return this.counter(this.activeDirectories);
-    }
-
-    counter(i: number) {
-      return new Array(i);
-  }
 }

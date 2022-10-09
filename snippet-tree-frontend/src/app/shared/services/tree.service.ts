@@ -15,9 +15,23 @@ export class TreeService {
   private activeTree: Tree  = new Tree();
 
   private currentPath: string[] = [];
+  
+  public activeDirectories: number[] = [1,2,3];
+
 
   private url = environment.baseUrl + 'api/v1/trees';
   constructor(private http:HttpClient, private auth: AuthService) { }
+
+  getActiveDirectories(){
+    return this.activeDirectories;
+  }
+
+  setActiveDirectories(count:number){
+    this.activeDirectories = [];
+    for(let i = 0; i < count; ++i){
+      this.activeDirectories.push(i);
+    }
+  }
 
   getCurrentPath(){
     return this.currentPath;
@@ -64,6 +78,10 @@ export class TreeService {
       })
     )
   }
+
+  counter(i: number) {
+    return new Array(i);
+}
 
 
 
