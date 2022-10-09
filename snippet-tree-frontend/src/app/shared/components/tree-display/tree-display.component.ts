@@ -35,9 +35,13 @@ export class TreeDisplayComponent implements OnInit {
   createNewItem(){
     if(this.itemType == "file"){
       let snippet = new Snippet(null, []);
+      console.log("snipet to save: ");
+      console.log(snippet);
       this.snippetService.addSnippet(snippet).subscribe(
         (snippet) => {      
           this.createnNewSnippet(snippet);
+          console.log("Saved snippet");
+          console.log(snippet);
         },
         (error) => {
           console.log(error);
@@ -51,9 +55,22 @@ export class TreeDisplayComponent implements OnInit {
 
   createnNewSnippet(snippet:Snippet){
     let snippetName = this.newItemName;
+    this.snippetService.setActiveSnippet(snippet);
     let item = new Treenode(snippetName, true, snippet.id, []);
+    console.log("item:");
+    console.log(item);
     let activeTree = this.treeService.getActiveTree();
     activeTree?.tree.items.push(item);
+    console.log("Saving tree");
+    this.treeService.saveActiveTree().subscribe(
+      (data) => {
+        this.treeService.setActiveTree(data);
+        console.log("Tree saved");
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
     console.log("updated tree");
     console.log(activeTree);
   }

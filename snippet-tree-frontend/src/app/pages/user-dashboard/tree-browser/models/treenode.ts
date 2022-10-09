@@ -1,12 +1,12 @@
 export class Treenode {
     name:string;
-    isFile:boolean;
+    file:boolean;
     fileId:string | null;
     items:Treenode[];
     
-    constructor(  name: string = "", isFile = false, fileId:string | null = null, items = []) {
+    constructor(  name: string = "", file = false, fileId:string | null = null, items = []) {
         this.name = name;
-        this.isFile = isFile;
+        this.file = file;
         this.fileId = fileId;
         this.items = items;
     }
