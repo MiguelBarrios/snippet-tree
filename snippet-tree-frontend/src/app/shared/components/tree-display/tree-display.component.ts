@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { main } from '@popperjs/core';
 import { Tree } from 'src/app/pages/user-dashboard/tree-browser/models/tree';
 import { Treenode } from 'src/app/pages/user-dashboard/tree-browser/models/treenode';
 import { Snippet } from '../../models/snippet';
@@ -20,6 +21,8 @@ export class TreeDisplayComponent implements OnInit {
   newItemName: string = "";
   itemType: string = "file";
   itemList: string[] = ['file', 'directory'];
+
+  activeDirectories: number = 2;
 
   constructor(private modalService: NgbModal, private snippetService:SnippetService,
     private snippetDisplay: SnippetDisplayComponent, private treeService:TreeService) { }
@@ -57,26 +60,33 @@ export class TreeDisplayComponent implements OnInit {
     let snippetName = this.newItemName;
     this.snippetService.setActiveSnippet(snippet);
     let item = new Treenode(snippetName, true, snippet.id, []);
-    console.log("item:");
-    console.log(item);
     let activeTree = this.treeService.getActiveTree();
     activeTree?.tree.items.push(item);
-    console.log("Saving tree");
     this.treeService.saveActiveTree().subscribe(
       (data) => {
         this.treeService.setActiveTree(data);
-        console.log("Tree saved");
       },
       (error) => {
         console.log(error);
       }
     )
-    console.log("updated tree");
-    console.log(activeTree);
   }
 
   createNewDirectory(){
     console.log("Creating new Directory");
+    let directoryName = this.newItemName;
+    let item = new Treenode(directoryName, false, null);
+    let activeTree = this.treeService.getActiveTree();
+    activeTree?.tree.items.push(item);
+    this.treeService.saveActiveTree().subscribe(
+      (data) => {
+        this.treeService.setActiveTree(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+
   }
 
   
@@ -88,16 +98,90 @@ export class TreeDisplayComponent implements OnInit {
       if(header){
         header.textContent = this.selectedTree.treename;
       }
-      this.renderDisplay(this.selectedTree.tree);
+      this.renderDisplay();
 
     }
 
   }
 
-  renderDisplay(tree:Treenode){
-    console.log("this.selectedTree: ");
-    console.log(this.selectedTree);
+  
+  renderDisplay(){
+    let activeTree = this.treeService.getActiveTree();
+    var mainContainer = document.getElementById("tree-display");
+    if(mainContainer){
+      mainContainer.innerHTML = "";
+      if(activeTree){
+        let directoryContainer = this.buildDirectory(activeTree?.tree, "home-dir");
+        mainContainer.appendChild(directoryContainer);
+      }
+      
+      
+    }
   }
+
+  buildDirectory(directoryInfo:Treenode, id: string){
+    let directoryContainer = document.createElement("div");
+    directoryContainer.setAttribute("id", id);
+    directoryContainer.classList.add("display-col", "col-2");
+    console.log("Directory info");
+    console.log(directoryInfo);
+
+    let directoryItems = directoryInfo.items;
+    for(let i = 0; i < directoryItems.length; ++i){
+      let item = directoryItems[i];
+      let itemContainer = this.buildItemContainer(item);
+      directoryContainer.appendChild(itemContainer);
+    }
+
+    //add add item container
+    
+    var htmlString = `<div class="d-flex justify-content-center m-2 w-100">
+    <img mat-raised-button matTooltip="create new file/folder" (click)="open(addItem)"
+        class="svgimg mx-2" height="30px" width="30px" src="assets/img/add-new.svg" alt="..." />
+     </div>
+    </div>`
+    let addContainer = this.createElementFromHTML(htmlString);
+    directoryContainer.appendChild(addContainer);
+
+
+
+    return directoryContainer;
+  }
+
+  createElementFromHTML(htmlString:string) {
+    var div = document.createElement('div');
+    div.innerHTML = htmlString.trim();
+  
+    // Change this to div.childNodes to support multiple top-level nodes.
+    // return div.firstChild;
+    return div;
+  }
+
+
+
+  buildItemContainer(item:Treenode){
+    // outer container
+    let container = document.createElement('div');
+    container.classList.add('directory', 'm-2', 'w-100');
+
+    // item container
+    let itemContainer = document.createElement('button');
+    itemContainer.textContent = item.name;
+
+    if(item.file){
+      itemContainer.classList.add('btn', 'btn-outline-success', 'w-100');
+    } 
+    else{
+      itemContainer.classList.add('btn', 'btn-outline-primary', 'w-100')
+    }
+
+    container.append(itemContainer);
+
+    return container;
+  }
+
+
+
 
   // Modal functions
     // Modal methods
@@ -123,4 +207,8 @@ export class TreeDisplayComponent implements OnInit {
         return `with: ${reason}`;
       }
     }
+
+    counter(i: number) {
+      return new Array(i);
+  }
 }
