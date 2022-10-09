@@ -17,6 +17,7 @@ import { Tree } from 'src/app/pages/user-dashboard/tree-browser/models/tree';
 })
 export class SnippetDisplayComponent implements OnInit {
 
+  activeSnippet: boolean = false;
   editFlag: boolean = false;
   durationInSeconds = 5;
 
@@ -31,6 +32,10 @@ export class SnippetDisplayComponent implements OnInit {
     private clipboard: Clipboard, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+  }
+
+  display(){
+    return this.snippetService.getDisplay();
   }
 
   snippetToString(snippet: Snippet)  {

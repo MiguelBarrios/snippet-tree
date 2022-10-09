@@ -32,9 +32,6 @@ export class TreeDisplayComponent implements OnInit {
   loadCreatedItem(item:Treenode){
     
   }
-
-
-
   
   // Load selected tree in tree display
   loadTree(){
@@ -143,9 +140,11 @@ export class TreeDisplayComponent implements OnInit {
       let fileName = path[path.length - 1];
       console.log("file is selected");
       this.snippetDisplay.getSnippetById(fileid, fileName);
+      this.snippetService.turnOnDisplay();
     }
     else{
       console.log("Directory is selected");
+      this.snippetService.turnOffDisplay();
     }
   }
 

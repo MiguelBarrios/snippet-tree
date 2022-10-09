@@ -9,12 +9,25 @@ import { Snippet } from '../models/snippet';
 })
 export class SnippetService {
 
+  private display: boolean  = false;
   private activeSnippet:Snippet | null = null;
   private snippetName:string = "";
 
   private url = environment.baseUrl + 'api/v1/snippets'
 
   constructor(private http:HttpClient) { }
+
+  turnOnDisplay(){
+    this.display = true;
+  }
+
+  turnOffDisplay(){
+    this.display = false;
+  }
+
+  getDisplay(){
+    return this.display;
+  }
 
   getActiveSnippet(){
     return this.activeSnippet;
