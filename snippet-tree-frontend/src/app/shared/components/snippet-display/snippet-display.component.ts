@@ -32,7 +32,6 @@ export class SnippetDisplayComponent implements OnInit {
     private clipboard: Clipboard, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.getSnippetById("633f4a9c60e5d9630f9494fe");
   }
 
   snippetToString(snippet: Snippet)  {
