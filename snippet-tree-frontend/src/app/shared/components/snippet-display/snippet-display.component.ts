@@ -41,14 +41,19 @@ export class SnippetDisplayComponent implements OnInit {
     } 
     return str;
   }
+
+  getItemName(){
+    return this.snippetService.getActiveSnippetName();
+  }
   
 
-  getSnippetById(snippetId: String){
+  getSnippetById(snippetId: String, name: string){
     console.log(snippetId);
     this.snippetService.getSnippetById(snippetId).subscribe(
       (snippet) => {
-        this.snippetService.setActiveSnippet(snippet);
+        this.snippetService.setActiveSnippet(snippet, name);
         this.snippetContent = this.snippetToString(snippet);
+        this.snippetName = name;
         this.loadSnippet();
       },
       (error) => {
@@ -128,13 +133,14 @@ export class SnippetDisplayComponent implements OnInit {
   // Modal methods
   open(content: any) {
     let snippet = this.snippetService.getActiveSnippet();
+    let snippetName = this.snippetService.getActiveSnippetName();
+    console.log("snippet name: ");
+    console.log(snippetName);
     if(snippet){
       this.snippetContent = this.snippetToString(snippet);
+      this.snippetName = snippetName;
     }
-    
-    console.log("Active snippet");
-    console.log(this.activeSnippet);
-    console.log(this.snippetContent);
+
     this.modalService.open(content, 
       {
         size: 'xl', 

@@ -89,7 +89,7 @@ export class TreeDisplayComponent implements OnInit {
   // Add a new snippet item to the active tree
   createnNewSnippet(snippet:Snippet){
     let snippetName = this.newItemName;
-    this.snippetService.setActiveSnippet(snippet);
+    this.snippetService.setActiveSnippet(snippet, snippetName);
     let item = new Treenode(snippetName, true, snippet.id, []);
     let activeTree = this.treeService.getActiveTree();
     activeTree?.tree.items.push(item);
@@ -135,10 +135,14 @@ export class TreeDisplayComponent implements OnInit {
 
   //Render the tree display based on provided path
   renderDisplay2(itemPath:string, type:string, fileid:string){
+
+    let path = itemPath.split('-');
+
     // Selected item is a file
     if(type == 'file'){
+      let fileName = path[path.length - 1];
       console.log("file is selected");
-      this.snippetDisplay.getSnippetById(fileid);
+      this.snippetDisplay.getSnippetById(fileid, fileName);
     }
     else{
       console.log("Directory is selected");

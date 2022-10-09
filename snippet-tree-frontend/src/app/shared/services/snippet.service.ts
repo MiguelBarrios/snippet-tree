@@ -10,6 +10,7 @@ import { Snippet } from '../models/snippet';
 export class SnippetService {
 
   private activeSnippet:Snippet | null = null;
+  private snippetName:string = "";
 
   private url = environment.baseUrl + 'api/v1/snippets'
 
@@ -19,8 +20,13 @@ export class SnippetService {
     return this.activeSnippet;
   }
 
-  setActiveSnippet(snippet:Snippet){
+  getActiveSnippetName(){
+    return this.snippetName;
+  }
+
+  setActiveSnippet(snippet:Snippet, name:string){
     this.activeSnippet = snippet;
+    this.snippetName = name;
   }
 
   getSnippetById(snippetId: String){
