@@ -16,21 +16,18 @@ export class TreeService {
 
   private currentPath: string[] = [];
   
-  public activeDirectories: number[] = [1,2,3];
-
+  private selectedItemPath: string = "";
 
   private url = environment.baseUrl + 'api/v1/trees';
   constructor(private http:HttpClient, private auth: AuthService) { }
 
-  getActiveDirectories(){
-    return this.activeDirectories;
+
+  getSelectedItemPath(){
+    return this.selectedItemPath;
   }
 
-  setActiveDirectories(count:number){
-    this.activeDirectories = [];
-    for(let i = 0; i < count; ++i){
-      this.activeDirectories.push(i);
-    }
+  setSelectedItemPath(path:string){
+    this.selectedItemPath = path;
   }
 
   getCurrentPath(){

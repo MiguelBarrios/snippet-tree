@@ -23,6 +23,9 @@ export class TreeDisplayComponent implements OnInit {
 
   currentPath:string[] = [];
 
+  //add new item var's
+  newItemPath: string = "";
+
   constructor(private modalService: NgbModal, private snippetService:SnippetService,
     private snippetDisplay: SnippetDisplayComponent, private treeService:TreeService) { }
 
@@ -63,14 +66,29 @@ export class TreeDisplayComponent implements OnInit {
   //------------------------ Tree Modification functions -------------------------
   // add a new item to the active tree
   createNewItem(){
+    //Get Correct directory
+    let path = this.treeService.getSelectedItemPath().split("-");
+    let parent = this.treeService.getActiveTree();
+    console.log(path);
+
+    console.log(parent);
+
+    let selectedTree = parent.tree;
+    for(let i = 1; i < path.length; ++i){
+      let items = selectedTree.items;
+      let target = path[i];
+      console.log(target);
+      selectedTree = this.findNextDirectory(selectedTree, target);
+    }
+
+
     if(this.itemType == "file"){
       let snippet = new Snippet(null, []);
       console.log("snipet to save: ");
       console.log(snippet);
       this.snippetService.addSnippet(snippet).subscribe(
         (snippet) => {      
-          this.createnNewSnippet(snippet);
-          
+          this.addSnippetToTree(snippet, selectedTree);
         },
         (error) => {
           console.log(error);
@@ -83,15 +101,16 @@ export class TreeDisplayComponent implements OnInit {
   }
 
   // Add a new snippet item to the active tree
-  createnNewSnippet(snippet:Snippet){
+  addSnippetToTree(snippet:Snippet, treenode:Treenode){
     let snippetName = this.newItemName;
     this.snippetService.setActiveSnippet(snippet, snippetName);
     let item = new Treenode(snippetName, true, snippet.id, []);
-    let activeTree = this.treeService.getActiveTree();
-    activeTree?.tree.items.push(item);
+    // let activeTree = this.treeService.getActiveTree();
+    // activeTree?.tree.items.push(item);
+    treenode.items.push(item);
     this.treeService.saveActiveTree().subscribe(
-      (data) => {
-        this.treeService.setActiveTree(data);
+      (updatedTree) => {
+        this.treeService.setActiveTree(updatedTree);
         this.loadTree();
       },
       (error) => {
@@ -171,8 +190,6 @@ export class TreeDisplayComponent implements OnInit {
         
         //build nextdir
         if(nextDir){
-          console.log("Building directory: " + nextDirName);
-          console.log("Full Path: " + path.join('-'));
           let dirContainer =  this.buildDirectory(nextDir, path.join('-'));
           display.appendChild(dirContainer);
         }
@@ -247,14 +264,19 @@ export class TreeDisplayComponent implements OnInit {
     if(container){
       container.classList.add('display-col',  'd-flex');
       container.innerHTML = '';
+      let path = "";
       for(let i = 0; i < directories.length; ++i){
-        let itemContainer = this.buildAddItemContainer()
+        path += directories[i];
+        let itemContainer = this.buildAddItemContainer(path);
         container.appendChild(itemContainer);
+        if(i < directories.length - 1){
+          path += '-';
+        }
       }
     }
   }
   //Create Add File Container
-  buildAddItemContainer(){
+  buildAddItemContainer(param:string){
     let container = document.createElement('div');
     container.classList.add('d-flex', 'justify-content-center', 'col-2', 'm-2');
 
@@ -263,6 +285,7 @@ export class TreeDisplayComponent implements OnInit {
     img.setAttribute('height', '30px');
     img.setAttribute('width', '30px');
     img.setAttribute('src', 'assets/img/add-folder.svg');
+    img.setAttribute('myparam.path', param);
     container.appendChild(img);
 
     container.addEventListener('click', this.openAddItemModal(this),false);
@@ -270,11 +293,13 @@ export class TreeDisplayComponent implements OnInit {
     return container;
   }
 
+
   openAddItemModal = function(component:TreeDisplayComponent) {
     return function curried_func(e: any) {
       console.log(e.target);
       document.getElementById('addItemModalBtn')?.click();
-
+      let path = e.target.getAttribute('myparam.path');
+      component.treeService.setSelectedItemPath(path);
     }
 }
 
