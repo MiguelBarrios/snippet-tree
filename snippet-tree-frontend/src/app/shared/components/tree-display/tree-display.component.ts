@@ -77,7 +77,6 @@ export class TreeDisplayComponent implements OnInit {
     for(let i = 1; i < path.length; ++i){
       let items = selectedTree.items;
       let target = path[i];
-      console.log(target);
       selectedTree = this.findNextDirectory(selectedTree, target);
     }
 
@@ -96,7 +95,7 @@ export class TreeDisplayComponent implements OnInit {
       )
     }
     else{
-      this.createNewDirectory();
+      this.addNewDirectoryToTree(selectedTree);
     }
   }
 
@@ -120,14 +119,15 @@ export class TreeDisplayComponent implements OnInit {
   }
 
   // Add a new directory item into active tree
-  createNewDirectory(){
+  addNewDirectoryToTree(treenode:Treenode){
     let directoryName = this.newItemName;
     let item = new Treenode(directoryName, false, null);
-    let activeTree = this.treeService.getActiveTree();
-    activeTree?.tree.items.push(item);
+    // let activeTree = this.treeService.getActiveTree();
+    // activeTree?.tree.items.push(item);
+    treenode.items.push(item);
     this.treeService.saveActiveTree().subscribe(
-      (data) => {
-        this.treeService.setActiveTree(data);
+      (updatedTree) => {
+        this.treeService.setActiveTree(updatedTree);
         this.loadTree();
       },
       (error) => {
