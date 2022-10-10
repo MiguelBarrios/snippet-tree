@@ -121,8 +121,6 @@ export class TreeDisplayComponent implements OnInit {
   // renders the root directory in the tree display
   renderDisplay(){
     let selectedItemPath = this.treeService.getCurrentPath();
-    console.log("Selected items path: ");
-    console.log(selectedItemPath);
     let activeTree = this.treeService.getActiveTree();
     var mainContainer = document.getElementById("tree-display");
     if(mainContainer){
@@ -249,7 +247,6 @@ export class TreeDisplayComponent implements OnInit {
     if(container){
       container.classList.add('display-col',  'd-flex');
       container.innerHTML = '';
-      console.log("^^");
       for(let i = 0; i < directories.length; ++i){
         let itemContainer = this.buildAddItemContainer()
         container.appendChild(itemContainer);
@@ -267,8 +264,19 @@ export class TreeDisplayComponent implements OnInit {
     img.setAttribute('width', '30px');
     img.setAttribute('src', 'assets/img/add-folder.svg');
     container.appendChild(img);
+
+    container.addEventListener('click', this.openAddItemModal(this),false);
+
     return container;
   }
+
+  openAddItemModal = function(component:TreeDisplayComponent) {
+    return function curried_func(e: any) {
+      console.log(e.target);
+      document.getElementById('addItemModalBtn')?.click();
+
+    }
+}
 
 //  <div class="d-flex justify-content-center col-2 m-2">
 //       <img  class="svgimg mx-2" height="30px" width="30px" src="assets/img/add-folder.svg" alt="..." />

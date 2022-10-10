@@ -116,7 +116,6 @@ export class SnippetDisplayComponent implements OnInit {
         gutterContainer.innerHTML = "";
         
         for(let i = 1; i <= activeSnippet.content.length; ++i){
-          console.log("added row");
           let row = document.createElement('div');
           row.classList.add('d-flex', 'justify-content-end')
           row.textContent = i.toString();
