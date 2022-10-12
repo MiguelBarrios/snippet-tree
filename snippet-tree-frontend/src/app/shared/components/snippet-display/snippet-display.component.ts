@@ -7,6 +7,7 @@ import {Clipboard} from '@angular/cdk/clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserDashboardComponent } from 'src/app/pages/user-dashboard/user-dashboard/user-dashboard.component';
 import { Tree } from 'src/app/pages/user-dashboard/tree-browser/models/tree';
+import { TreeService } from '../../services/tree.service';
 
 
 
@@ -29,7 +30,8 @@ export class SnippetDisplayComponent implements OnInit {
   
 
   constructor(private snippetService: SnippetService, private modalService: NgbModal, 
-    private clipboard: Clipboard, private _snackBar: MatSnackBar) { }
+    private clipboard: Clipboard, private _snackBar: MatSnackBar,
+    private treeService:TreeService) { }
 
   ngOnInit(): void {
   }
@@ -52,7 +54,6 @@ export class SnippetDisplayComponent implements OnInit {
   
 
   getSnippetById(snippetId: String, name: string){
-    console.log(snippetId);
     this.snippetService.getSnippetById(snippetId).subscribe(
       (snippet) => {
         this.snippetService.setActiveSnippet(snippet, name);
@@ -128,9 +129,25 @@ export class SnippetDisplayComponent implements OnInit {
     }
   }
 
-  editSnippet(){
+  deleteSnippet() {
+    this.snippetService.deleteActiveSnippet().subscribe(
+      (data) => {
+        console.log("snippet deleted succesfullly");
+        this.snippetService.turnOffDisplay();
+        this.removeActiveSnippetRefFromTree();
+      },
+      (error) => {
+        console.log(error);
+        console.error("Error deleting snippet");
+      }
+    )    
+  }
+
+  removeActiveSnippetRefFromTree(){
+    // this.treeService.removeActiveSnippetFromTree();
 
   }
+  
 
   // Modal methods
   open(content: any) {

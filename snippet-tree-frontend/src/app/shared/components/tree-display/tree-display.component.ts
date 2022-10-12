@@ -27,13 +27,11 @@ export class TreeDisplayComponent implements OnInit {
   newItemPath: string = "";
 
   constructor(private modalService: NgbModal, private snippetService:SnippetService,
-    private snippetDisplay: SnippetDisplayComponent, private treeService:TreeService) { }
+               private snippetDisplay: SnippetDisplayComponent, private treeService:TreeService) { }
 
   ngOnInit(): void {
     this.treeService = this.treeService;
   }
-
-
   
   // Load selected tree in tree display
   loadTree(){
@@ -50,14 +48,12 @@ export class TreeDisplayComponent implements OnInit {
 
   loadSelectedItem = function(component:TreeDisplayComponent) {
       return function curried_func(e: any) {
-        console.log(e.target);
         let path = e.target.getAttribute('myparam.path');
         let type = e.target.getAttribute('myparam.type');
         let fileid = null;
         if(type == 'file'){
           fileid = e.target.getAttribute('myParam.fileid');
         }
-
         component.renderDisplay2(path, type, fileid);
       }
   }
@@ -66,25 +62,18 @@ export class TreeDisplayComponent implements OnInit {
   //------------------------ Tree Modification functions -------------------------
   // add a new item to the active tree
   createNewItem(){
-    //Get Correct directory
-    let path = this.treeService.getSelectedItemPath().split("-");
+    let path = this.treeService.getCurrentPath();
     let parent = this.treeService.getActiveTree();
-    console.log(path);
-
-    console.log(parent);
 
     let selectedTree = parent.tree;
     for(let i = 1; i < path.length; ++i){
-      let items = selectedTree.items;
       let target = path[i];
-      selectedTree = this.findNextDirectory(selectedTree, target);
+      selectedTree = this.treeService.findNextDirectory(selectedTree, target);
     }
 
 
     if(this.itemType == "file"){
-      let snippet = new Snippet(null, []);
-      console.log("snipet to save: ");
-      console.log(snippet);
+      let snippet = new Snippet("", []);
       this.snippetService.addSnippet(snippet).subscribe(
         (snippet) => {      
           this.addSnippetToTree(snippet, selectedTree);
@@ -121,7 +110,7 @@ export class TreeDisplayComponent implements OnInit {
   // Add a new directory item into active tree
   addNewDirectoryToTree(treenode:Treenode){
     let directoryName = this.newItemName;
-    let item = new Treenode(directoryName, false, null);
+    let item = new Treenode(directoryName, false);
     // let activeTree = this.treeService.getActiveTree();
     // activeTree?.tree.items.push(item);
     treenode.items.push(item);
@@ -155,26 +144,21 @@ export class TreeDisplayComponent implements OnInit {
 
   //Render the tree display based on provided path
   renderDisplay2(itemPath:string, type:string, fileid:string){
-
     let path = itemPath.split('-');
 
     // Selected item is a file
     if(type == 'file'){
       let fileName = path[path.length - 1];
-      console.log("file is selected");
       this.snippetDisplay.getSnippetById(fileid, fileName);
       this.snippetService.turnOnDisplay();
       return;
     }
 
     // Load directory
-    console.log("Directory is selected");
     this.snippetService.turnOffDisplay();
     this.treeService.setCurrentPath(path);
-    console.log(path);
     let activeTree = this.treeService.getActiveTree();
     let root = activeTree?.tree;
-    console.log(root);
     let display = document.getElementById('tree-display');
     if(display){
       display.innerHTML = '';
@@ -186,7 +170,7 @@ export class TreeDisplayComponent implements OnInit {
       let tree = root;
       for(let i = 1; i < path.length; ++i){
         let nextDirName = path[i];
-        let nextDir = this.findNextDirectory(tree, nextDirName);
+        let nextDir = this.treeService.findNextDirectory(tree, nextDirName);
         
         //build nextdir
         if(nextDir){
@@ -199,17 +183,6 @@ export class TreeDisplayComponent implements OnInit {
     }
 
     this.buildAddFileGutter(path);
-  }
-
-  findNextDirectory(tree:Treenode, target:string){
-    for(let i = 0; i < tree.items.length; ++i){
-      let cur = tree.items[i];
-      if(cur.name == target){
-        return cur;
-      }
-    }
-    return new Treenode();
-
   }
 
   // Build a HTML component for  a given directory
@@ -244,17 +217,13 @@ export class TreeDisplayComponent implements OnInit {
 
     if(item.file){
       itemContainer.classList.add('btn', 'btn-outline-success', 'w-100');
-      if(item.fileId){
-        itemContainer.setAttribute('myParam.fileid', item.fileId);
-      }
-      
+      itemContainer.setAttribute('myParam.fileid', item.fileId);
     } 
     else{
       itemContainer.classList.add('btn', 'btn-outline-primary', 'w-100')
     }
 
     container.append(itemContainer);
-
     return container;
   }
 
@@ -287,12 +256,11 @@ export class TreeDisplayComponent implements OnInit {
     img.setAttribute('src', 'assets/img/add-folder.svg');
     img.setAttribute('myparam.path', param);
     container.appendChild(img);
-
     container.addEventListener('click', this.openAddItemModal(this),false);
-
     return container;
   }
 
+  // ---------------------- Modal functions ----------------------------------
 
   openAddItemModal = function(component:TreeDisplayComponent) {
     return function curried_func(e: any) {
@@ -301,34 +269,28 @@ export class TreeDisplayComponent implements OnInit {
       let path = e.target.getAttribute('myparam.path');
       component.treeService.setSelectedItemPath(path);
     }
-}
+  }
 
-//  <div class="d-flex justify-content-center col-2 m-2">
-//       <img  class="svgimg mx-2" height="30px" width="30px" src="assets/img/add-folder.svg" alt="..." />
-//  </div>   
-
-
-  // ---------------------- Modal functions ----------------------------------
-    open(content: any) {
-      this.modalService.open(content, 
-        {
-          size: 'md', 
-          ariaLabelledBy: 'modal-basic-title',
-        }
-      ).result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
-      }, (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      });
-    }
-  
-    private getDismissReason(reason: any): string {
-      if (reason === ModalDismissReasons.ESC) {
-        return 'by pressing ESC';
-      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-        return 'by clicking on a backdrop';
-      } else {
-        return `with: ${reason}`;
+  open(content: any) {
+    this.modalService.open(content, 
+      {
+        size: 'md', 
+        ariaLabelledBy: 'modal-basic-title',
       }
+    ).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
     }
+  }
 }

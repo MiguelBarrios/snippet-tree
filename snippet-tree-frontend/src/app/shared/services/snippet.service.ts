@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Snippet } from '../models/snippet';
+import { AuthService } from './auth.service';
+import { TreeService } from './tree.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ export class SnippetService {
 
   private url = environment.baseUrl + 'api/v1/snippets'
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,private authService:AuthService) { }
 
   turnOnDisplay(){
     this.display = true;
@@ -23,6 +25,16 @@ export class SnippetService {
 
   turnOffDisplay(){
     this.display = false;
+  }
+
+  deleteActiveSnippet(){
+    let url = this.url + '/' + this.activeSnippet?.id;
+    return this.http.delete<void>(url, this.authService.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(err);
+      })
+    )
   }
 
   getDisplay(){

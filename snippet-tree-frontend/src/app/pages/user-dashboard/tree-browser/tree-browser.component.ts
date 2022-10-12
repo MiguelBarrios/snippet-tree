@@ -55,7 +55,7 @@ export class TreeBrowserComponent implements OnInit {
 
   createNewTree(){
     console.log("creating new tree");
-    let treeNode = new Treenode(this.newTreeName, false, null, []);
+    let treeNode = new Treenode(this.newTreeName, false, "", []);
     let newTree = new Tree(null, null, this.newTreeName, treeNode);
     this.saveNewTree(newTree);
   }
