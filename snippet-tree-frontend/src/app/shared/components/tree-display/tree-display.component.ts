@@ -21,8 +21,6 @@ export class TreeDisplayComponent implements OnInit {
   itemType: string = "file";
   itemList: string[] = ['file', 'directory'];
 
-  currentPath:string[] = [];
-
   //add new item var's
   newItemPath: string = "";
 
@@ -36,7 +34,6 @@ export class TreeDisplayComponent implements OnInit {
   // Load selected tree in tree display
   loadTree(){
     let activeTree = this.treeService.getActiveTree();
-    this.currentPath = this.treeService.getCurrentPath();
     if(activeTree){
       let header = document.getElementById("treeDisplayHeader");
       if(header){
@@ -48,8 +45,12 @@ export class TreeDisplayComponent implements OnInit {
 
   loadSelectedItem = function(component:TreeDisplayComponent) {
       return function curried_func(e: any) {
+        console.log("loadSelectedItem()");
+        console.log(e.target);
         let path = e.target.getAttribute('myparam.path');
         let type = e.target.getAttribute('myparam.type');
+        console.log("Path to render: " + path);
+
         let fileid = null;
         if(type == 'file'){
           fileid = e.target.getAttribute('myParam.fileid');
@@ -73,7 +74,7 @@ export class TreeDisplayComponent implements OnInit {
 
 
     if(this.itemType == "file"){
-      let snippet = new Snippet("", []);
+      let snippet = new Snippet(null, []);
       this.snippetService.addSnippet(snippet).subscribe(
         (snippet) => {      
           this.addSnippetToTree(snippet, selectedTree);
@@ -84,6 +85,8 @@ export class TreeDisplayComponent implements OnInit {
       )
     }
     else{
+      console.log("here");
+
       this.addNewDirectoryToTree(selectedTree);
     }
   }
@@ -92,20 +95,34 @@ export class TreeDisplayComponent implements OnInit {
   addSnippetToTree(snippet:Snippet, treenode:Treenode){
     let snippetName = this.newItemName;
     this.snippetService.setActiveSnippet(snippet, snippetName);
-    let item = new Treenode(snippetName, true, snippet.id, []);
-    // let activeTree = this.treeService.getActiveTree();
+    let item;
+    if(snippet.id){
+      item = new Treenode(snippetName, true, snippet.id, []);
+          // let activeTree = this.treeService.getActiveTree();
     // activeTree?.tree.items.push(item);
     treenode.items.push(item);
     this.treeService.saveActiveTree().subscribe(
-      (updatedTree) => {
-        this.treeService.setActiveTree(updatedTree);
-        this.loadTree();
-      },
-      (error) => {
-        console.log(error);
-      }
-    )
-  }
+        (updatedTree) => {
+          this.treeService.setActiveTree(updatedTree);
+          let currentPath = this.treeService.getCurrentPath();
+          let type = 'file';
+          console.log(currentPath.join('-'));
+          console.log(snippet.id);
+          console.log(type);
+          console.log(snippet);
+          console.log(this.treeService.getActiveTree());
+          if(snippet.id){
+            this.renderDisplay2(currentPath.join('-'), 'file', snippet.id);
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    }
+    }
+    
+
 
   // Add a new directory item into active tree
   addNewDirectoryToTree(treenode:Treenode){
@@ -117,7 +134,11 @@ export class TreeDisplayComponent implements OnInit {
     this.treeService.saveActiveTree().subscribe(
       (updatedTree) => {
         this.treeService.setActiveTree(updatedTree);
-        this.loadTree();
+        // this.loadTree();
+        let currentPath = this.treeService.getCurrentPath();
+        console.log("**********");
+        console.error(currentPath);
+        this.renderDisplay();
       },
       (error) => {
         console.log(error);
@@ -144,7 +165,10 @@ export class TreeDisplayComponent implements OnInit {
 
   //Render the tree display based on provided path
   renderDisplay2(itemPath:string, type:string, fileid:string){
+    console.log("renderDispalay2()");
     let path = itemPath.split('-');
+    console.log("Rendering " + type + " : ");
+    console.log(path);
 
     // Selected item is a file
     if(type == 'file'){
@@ -153,36 +177,50 @@ export class TreeDisplayComponent implements OnInit {
       this.snippetService.turnOnDisplay();
       return;
     }
+    else{
+          // Directory selected, turn of display
+          this.snippetService.turnOffDisplay();
+          this.treeService.setCurrentPath(path);
+          let activeTree = this.treeService.getActiveTree();
+          let root = activeTree?.tree;
+          console.log(root);
 
-    // Load directory
-    this.snippetService.turnOffDisplay();
-    this.treeService.setCurrentPath(path);
-    let activeTree = this.treeService.getActiveTree();
-    let root = activeTree?.tree;
-    let display = document.getElementById('tree-display');
-    if(display){
-      display.innerHTML = '';
-      //build root directory
-      let rootContainer = this.buildDirectory(root, path[0]);
-      display.appendChild(rootContainer);
+          // ---------------------------------------------------
+          let display = document.getElementById('tree-display');
+          if(display){
+            display.innerHTML = '';
+            //build root directory
+            let rootContainer = this.buildDirectory(root, path[0]);
+            display.appendChild(rootContainer);
 
-      // Build rest of tree
-      let tree = root;
-      for(let i = 1; i < path.length; ++i){
-        let nextDirName = path[i];
-        let nextDir = this.treeService.findNextDirectory(tree, nextDirName);
-        
-        //build nextdir
-        if(nextDir){
-          let dirContainer =  this.buildDirectory(nextDir, path.join('-'));
-          display.appendChild(dirContainer);
-        }
-        tree = nextDir;
-      }
-      
+            // Build rest of tree
+            let tree = root;
+            let nextpath = path[0];
+            for(let i = 1; i < path.length; ++i){
+              nextpath = nextpath + '-' + path[i];
+              console.log("Next path: " + nextpath);
+              
+              let nextDirName = path[i];
+              let nextDir = this.treeService.findNextDirectory(tree, nextDirName);
+              
+              //build nextdir
+              if(nextDir){
+                let dirContainer =  this.buildDirectory(nextDir, nextpath);
+                display.appendChild(dirContainer);
+              }
+              tree = nextDir;
+            }
+            
+          }
+
+          this.buildAddFileGutter(path);
+
+
     }
 
-    this.buildAddFileGutter(path);
+
+
+
   }
 
   // Build a HTML component for  a given directory
@@ -264,7 +302,6 @@ export class TreeDisplayComponent implements OnInit {
 
   openAddItemModal = function(component:TreeDisplayComponent) {
     return function curried_func(e: any) {
-      console.log(e.target);
       document.getElementById('addItemModalBtn')?.click();
       let path = e.target.getAttribute('myparam.path');
       component.treeService.setSelectedItemPath(path);

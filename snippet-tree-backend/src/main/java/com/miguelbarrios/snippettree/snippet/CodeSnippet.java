@@ -1,5 +1,7 @@
 package com.miguelbarrios.snippettree.snippet;
 
+import java.util.Arrays;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -31,6 +33,13 @@ public class CodeSnippet {
 	public void setContent(String[] content) {
 		this.content = content;
 	}
+
+	@Override
+	public String toString() {
+		return "CodeSnippet [id=" + id + ", content=" + Arrays.toString(content) + "]";
+	}
+	
+	
 	
 
 }

@@ -1,9 +1,9 @@
 export class Snippet {
 
-    id: string;
+    id: string | null;
     content: string[];
 
-    constructor(  id: string = "", content: string[] = []) {
+    constructor(  id: string  | null = null, content: string[] = []) {
         this.id = id,
         this.content = content;
     }

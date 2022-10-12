@@ -33,6 +33,7 @@ public class SnippetController {
 	
 	@PostMapping("snippets")
 	public CodeSnippet saveSnippet(@RequestBody CodeSnippet snippet) {
+		System.out.println(snippet);
 		return snippetService.addSnippet(snippet);
 	}
 	
