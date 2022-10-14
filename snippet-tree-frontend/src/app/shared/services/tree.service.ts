@@ -181,23 +181,6 @@ export class TreeService {
             //Add item section
             let addItemContainer = document.createElement('div');
             addItemContainer.classList.add('display-col', 'col-2', 'd-flex', 'flex-column','align-items-center');
-
-            let img = document.createElement('img');
-            img.classList.add('svgimg', 'mx-2');
-            img.setAttribute('height', '25px');
-            img.setAttribute('width', '25px');
-            img.setAttribute('src', 'assets/img/add-folder.svg');
-            addItemContainer.appendChild(img);
-
-            let img2 = document.createElement('img');
-            img2.classList.add('svgimg', 'mx-2');
-            img2.setAttribute('height', '25px');
-            img2.setAttribute('width', '25px');
-            img2.setAttribute('src', 'assets/img/add-document.svg');
-            addItemContainer.appendChild(img2);
-
-            display.appendChild(addItemContainer);
-
           }
           // this.buildAddFileGutter(path);
     }
