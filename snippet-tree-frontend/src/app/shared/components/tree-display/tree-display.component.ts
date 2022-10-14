@@ -32,17 +32,6 @@ export class TreeDisplayComponent implements OnInit {
     this.treeService = this.treeService;
   }
   
-  // Load selected tree in tree display
-  loadTree(){
-    let activeTree = this.treeService.getActiveTree();
-    if(activeTree){
-      let header = document.getElementById("treeDisplayHeader");
-      if(header){
-        header.textContent = activeTree.treename;
-      }
-      this.treeService.renderDisplay();
-    }
-  }
 
 
 
@@ -72,8 +61,6 @@ export class TreeDisplayComponent implements OnInit {
       )
     }
     else{
-      console.log("here");
-
       this.addNewDirectoryToTree(selectedTree);
     }
   }
@@ -99,7 +86,7 @@ export class TreeDisplayComponent implements OnInit {
           console.log(snippet);
           console.log(this.treeService.getActiveTree());
           if(snippet.id){
-            this.treeService.renderDisplay2(currentPath.join('-'), 'file', snippet.id);
+            this.treeService.renderDisplay(currentPath.join('-'), 'file', snippet.id);
           }
         },
         (error) => {
@@ -124,8 +111,9 @@ export class TreeDisplayComponent implements OnInit {
         // this.loadTree();
         let currentPath = this.treeService.getCurrentPath();
         console.log("**********");
-        console.error(currentPath);
-        this.treeService.renderDisplay();
+        console.error(currentPath.join('-'));
+        // this.treeService.renderDisplay();
+        this.treeService.renderDisplay(currentPath.join('-'),'directory', '');
       },
       (error) => {
         console.log(error);

@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SnippetDisplayComponent } from 'src/app/shared/components/snippet-display/snippet-display.component';
+import { TreeDisplayComponent } from 'src/app/shared/components/tree-display/tree-display.component';
 import { User } from 'src/app/shared/models/user';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { Tree } from '../tree-browser/models/tree';
+import { TreeBrowserComponent } from '../tree-browser/tree-browser.component';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -10,7 +14,13 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 })
 export class UserDashboardComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private authService:AuthService) { }
+
+  constructor(private route: ActivatedRoute, 
+              private authService:AuthService,
+              private snippetDisplay:SnippetDisplayComponent,
+              private treeDisplay:TreeDisplayComponent,
+              private  treeBrowser:TreeBrowserComponent
+  ) { }
 
   ngOnInit(): void {
     let user = new User();
@@ -24,5 +34,6 @@ export class UserDashboardComponent implements OnInit {
       }
     )
   }
+
 
 }

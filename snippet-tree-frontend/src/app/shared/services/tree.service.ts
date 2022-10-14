@@ -23,6 +23,22 @@ export class TreeService {
   private url = environment.baseUrl + 'api/v1/trees';
   constructor(private http:HttpClient, private auth: AuthService, private snippetService:SnippetService) { }
 
+  loadTree(tree:Tree){
+    this.setActiveTree(tree);
+    this.setCurrentPath([tree.treename]);
+    let activeTree = this.activeTree;
+    if(activeTree){
+      let header = document.getElementById("treeDisplayHeader");
+      if(header){
+        header.textContent = activeTree.treename;
+      }
+      // this.renderDisplay();
+      this.renderDisplay(this.currentPath.join('-'),'directory', '');
+    }
+
+
+  }
+
   removeActiveSnippetFromTree(){
     console.log("------------ removing snippet ref from tree -----------------------")
     let tree = this.activeTree.tree;
@@ -48,7 +64,6 @@ export class TreeService {
       }
     }
     return new Treenode();
-
   }
 
   getSelectedItemPath(){
@@ -109,26 +124,11 @@ export class TreeService {
   // render snippet display
 
  //------------------------ Gen Dynamic components -------------------------
-  // renders the root directory in the tree display
-  renderDisplay(){
-    let selectedItemPath = this.currentPath;
-    let activeTree = this.activeTree;
-    var mainContainer = document.getElementById("tree-display");
-    if(mainContainer){
-      mainContainer.innerHTML = "";
-      if(activeTree){
-        let directoryContainer = this.buildDirectory(activeTree?.tree, activeTree.tree.name);
-        mainContainer.appendChild(directoryContainer);
-      }
-    }
-
-    this.buildAddFileGutter(selectedItemPath);
-  }
 
   //Render the tree display based on provided path
   // TODO: reload screen when new item is created
   // TODO: fix bug, directory header is displayed when new file is created
-  renderDisplay2(itemPath:string, type:string, fileid:string){
+  renderDisplay(itemPath:string, type:string, fileid:string){
     console.log("renderDispalay2()");
     let path = itemPath.split('-');
     console.log("Rendering " + type + " : ");
@@ -177,8 +177,29 @@ export class TreeService {
               }
               tree = nextDir;
             } 
+
+            //Add item section
+            let addItemContainer = document.createElement('div');
+            addItemContainer.classList.add('display-col', 'col-2', 'd-flex', 'flex-column','align-items-center');
+
+            let img = document.createElement('img');
+            img.classList.add('svgimg', 'mx-2');
+            img.setAttribute('height', '25px');
+            img.setAttribute('width', '25px');
+            img.setAttribute('src', 'assets/img/add-folder.svg');
+            addItemContainer.appendChild(img);
+
+            let img2 = document.createElement('img');
+            img2.classList.add('svgimg', 'mx-2');
+            img2.setAttribute('height', '25px');
+            img2.setAttribute('width', '25px');
+            img2.setAttribute('src', 'assets/img/add-document.svg');
+            addItemContainer.appendChild(img2);
+
+            display.appendChild(addItemContainer);
+
           }
-          this.buildAddFileGutter(path);
+          // this.buildAddFileGutter(path);
     }
   }
 
@@ -209,7 +230,7 @@ export class TreeService {
       if(type == 'file'){
         fileid = e.target.getAttribute('myParam.fileid');
       }
-      treeService.renderDisplay2(path, type, fileid);
+      treeService.renderDisplay(path, type, fileid);
     }
 }
 
@@ -260,12 +281,12 @@ export class TreeService {
   //Create Add File Container
   buildAddItemContainer(param:string){
     let container = document.createElement('div');
-    container.classList.add('d-flex', 'justify-content-center', 'col-2', 'm-2');
+    container.classList.add('d-flex', 'justify-content-center', 'col-2');
 
     let img = document.createElement('img');
     img.classList.add('svgimg', 'mx-2');
-    img.setAttribute('height', '30px');
-    img.setAttribute('width', '30px');
+    img.setAttribute('height', '25px');
+    img.setAttribute('width', '25px');
     img.setAttribute('src', 'assets/img/add-folder.svg');
     img.setAttribute('myparam.path', param);
     container.appendChild(img);
