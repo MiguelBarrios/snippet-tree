@@ -22,6 +22,10 @@ export class TreeDisplayComponent implements OnInit {
   itemType: string = "file";
   itemList: string[] = ['file', 'directory'];
 
+  addItemModalHeader: string = '';
+  addItemPlacehoder: string = 'asdf';
+  currentPath: string = '';
+
   //add new item var's
   newItemPath: string = "";
 
@@ -32,12 +36,15 @@ export class TreeDisplayComponent implements OnInit {
     this.treeService = this.treeService;
   }
   
-
-
-
-
   //------------------------ Tree Modification functions -------------------------
   // add a new item to the active tree
+  createItem(type:string, content: any){
+    this.itemType = type;
+    this.addItemModalHeader = "Add " + type;
+    this.addItemPlacehoder = type + ' name';
+    this.currentPath = 'path: ' + this.treeService.getCurrentPath().join('/') + '/';
+    this.open(content);
+  }
   createNewItem(){
     let path = this.treeService.getCurrentPath();
     let parent = this.treeService.getActiveTree();
@@ -86,7 +93,8 @@ export class TreeDisplayComponent implements OnInit {
           console.log(snippet);
           console.log(this.treeService.getActiveTree());
           if(snippet.id){
-            this.treeService.renderDisplay(currentPath.join('-'), 'file', snippet.id);
+            // this.treeService.renderDisplay(currentPath.join('-'), 'file', snippet.id);
+            this.treeService.renderDisplay(currentPath.join('-'), 'directory', '');
           }
         },
         (error) => {
