@@ -38,9 +38,6 @@ export class SnippetDisplayComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  display(){
-    return this.snippetService.getDisplay();
-  }
 
   snippetToString(snippet: Snippet)  {
     let str = "";
@@ -53,8 +50,6 @@ export class SnippetDisplayComponent implements OnInit {
   getItemName(){
     return this.snippetService.getActiveSnippetName();
   }
-
-  
 
   getSnippetById(snippetId: String, name: string){
     this.snippetService.getSnippetById(snippetId).subscribe(
@@ -97,9 +92,9 @@ export class SnippetDisplayComponent implements OnInit {
   }
 
   loadSnippet(){
+    console.log("******");
     let activeSnippet = this.snippetService.getActiveSnippet();
     if(activeSnippet){
-      var space = document.createTextNode("\u00A0");
 
       // Load Snippet
       var element = document.getElementById("code-display-container");
@@ -109,7 +104,7 @@ export class SnippetDisplayComponent implements OnInit {
           let leadingSpaces = this.numLeadingSpaces(line);
           const spaces = ' '.repeat(leadingSpaces * 2);
           let div = document.createElement('div');
-          div.textContent = spaces + line;          
+          div.textContent =  line;          
           element.appendChild(div);
         }
       }      
@@ -125,10 +120,7 @@ export class SnippetDisplayComponent implements OnInit {
           row.textContent = i.toString();
           gutterContainer.appendChild(row);
         }
-        
-
       }
-
     }
   }
 

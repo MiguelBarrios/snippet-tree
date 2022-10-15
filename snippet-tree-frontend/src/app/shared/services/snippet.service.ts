@@ -20,11 +20,17 @@ export class SnippetService {
   constructor(private http:HttpClient,private authService:AuthService) { }
 
   turnOnDisplay(){
-    this.display = true;
+    let container = document.getElementById('snippet-display-container');
+    if(container){
+      container.classList.remove('hidden');
+    }
   }
 
   turnOffDisplay(){
-    this.display = false;
+    let container = document.getElementById('snippet-display-container');
+    if(container){
+      container.classList.add('hidden');
+    }
   }
 
   deleteActiveSnippet(){
@@ -81,4 +87,38 @@ export class SnippetService {
       })
     )
   }
+
+  loadSnippet(){
+    console.log("******");
+    let activeSnippet = this.getActiveSnippet();
+    if(activeSnippet){
+      console.log(activeSnippet.content);
+      // Load Snippet
+      var element = document.getElementById("code-display-container");
+      if(element){
+        element.innerHTML = '';
+        for(var line of activeSnippet.content){
+          let div = document.createElement('div');
+          div.textContent =  line;          
+          element.appendChild(div);
+        }
+      }      
+
+      //create gutter
+      var gutterContainer = document.getElementById('gutter-container');
+      if(gutterContainer){
+        gutterContainer.innerHTML = "";
+        
+        for(let i = 1; i <= activeSnippet.content.length; ++i){
+          let row = document.createElement('div');
+          row.classList.add('d-flex', 'justify-content-end')
+          row.textContent = i.toString();
+          gutterContainer.appendChild(row);
+        }
+      }
+    }
+  }
+
+
+
 }

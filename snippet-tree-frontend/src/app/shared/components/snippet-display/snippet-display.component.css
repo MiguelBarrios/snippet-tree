@@ -9,3 +9,7 @@
 .svgimg{
     columns: green;
 }
+
+.hidden {
+    display: none;
+}
