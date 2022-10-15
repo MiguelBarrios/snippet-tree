@@ -105,7 +105,8 @@ export class SnippetService {
           let leadingSpaces = this.numLeadingSpaces(line);
           const spaces = ' '.repeat(leadingSpaces * 2);
           let div = document.createElement('div');
-          div.textContent =  spaces + line;          
+          div.textContent =  spaces + line;       
+          console.log(div);   
           element.appendChild(div);
         }
       }      
