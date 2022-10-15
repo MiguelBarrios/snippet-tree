@@ -8,6 +8,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserDashboardComponent } from 'src/app/pages/user-dashboard/user-dashboard/user-dashboard.component';
 import { Tree } from 'src/app/pages/user-dashboard/tree-browser/models/tree';
 import { TreeService } from '../../services/tree.service';
+import { TreeDisplayComponent } from '../tree-display/tree-display.component';
+import { ThisReceiver } from '@angular/compiler';
 
 
 
@@ -51,6 +53,7 @@ export class SnippetDisplayComponent implements OnInit {
   getItemName(){
     return this.snippetService.getActiveSnippetName();
   }
+
   
 
   getSnippetById(snippetId: String, name: string){
@@ -134,18 +137,21 @@ export class SnippetDisplayComponent implements OnInit {
       (data) => {
         console.log("snippet deleted succesfullly");
         this.snippetService.turnOffDisplay();
-        this.removeActiveSnippetRefFromTree();
+        this.treeService.removeActiveSnippetFromTree();
+
+        //refresh display
+        let currentPath = this.treeService.getCurrentPath();
+        console.log("****");
+        console.log(currentPath);
+        let path = this.treeService.getCurrentPath().join('-');
+        console.log(path);
+        this.treeService.renderDisplay(path, 'directory', '');
       },
       (error) => {
         console.log(error);
         console.error("Error deleting snippet");
       }
     )    
-  }
-
-  removeActiveSnippetRefFromTree(){
-    // this.treeService.removeActiveSnippetFromTree();
-
   }
   
 

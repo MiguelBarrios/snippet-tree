@@ -44,7 +44,7 @@ import {MatRadioModule} from '@angular/material/radio';
     MatSnackBarModule, 
     MatRadioModule
   ],
-  providers: [SnippetService, TreeDisplayComponent, SnippetDisplayComponent],
+  providers: [SnippetService, TreeDisplayComponent, SnippetDisplayComponent, TreeBrowserComponent],
   bootstrap: [AppComponent] 
 })
 export class AppModule { }
