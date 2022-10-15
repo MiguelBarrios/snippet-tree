@@ -7,6 +7,7 @@ import { catchError, throwError } from 'rxjs';
 import { Tree } from 'src/app/pages/user-dashboard/tree-browser/models/tree';
 import { SnippetService } from './snippet.service';
 import { Treenode } from 'src/app/pages/user-dashboard/tree-browser/models/treenode';
+import { ThisReceiver } from '@angular/compiler';
 
 
 @Injectable({
@@ -146,10 +147,6 @@ export class TreeService {
       }
     }
 
-
-    console.log("Rendering " + type + " : ");
-    console.log(path);
-
     // Selected item is a file
     if(type == 'file'){
       let fileName = path[path.length - 1];
@@ -157,6 +154,8 @@ export class TreeService {
         (snippet) => {
           this.snippetService.setActiveSnippet(snippet, fileName);
           this.snippetService.turnOnDisplay();
+          this.snippetService.loadSnippet();
+          
         }
       )      
     }
@@ -219,16 +218,13 @@ export class TreeService {
 
   loadSelectedItem = function(treeService:TreeService) {
     return function curried_func(e: any) {
-      console.log("loadSelectedItem()");
-      console.log(e.target);
       let path = e.target.getAttribute('myparam.path');
       let type = e.target.getAttribute('myparam.type');
-      console.log("Path to render: " + path);
-
       let fileid = null;
       if(type == 'file'){
         fileid = e.target.getAttribute('myParam.fileid');
       }
+
       treeService.renderDisplay(path, type, fileid);
     }
 }

@@ -6,6 +6,14 @@
     font-size: larger;
 }
 
+#gutter-container{
+    font-size: larger;
+}
+
 .svgimg{
     columns: green;
+}
+
+.hidden {
+    display: none;
 }

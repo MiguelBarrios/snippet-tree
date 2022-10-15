@@ -20,11 +20,17 @@ export class SnippetService {
   constructor(private http:HttpClient,private authService:AuthService) { }
 
   turnOnDisplay(){
-    this.display = true;
+    let container = document.getElementById('snippet-display-container');
+    if(container){
+      container.classList.remove('hidden');
+    }
   }
 
   turnOffDisplay(){
-    this.display = false;
+    let container = document.getElementById('snippet-display-container');
+    if(container){
+      container.classList.add('hidden');
+    }
   }
 
   deleteActiveSnippet(){
@@ -81,4 +87,58 @@ export class SnippetService {
       })
     )
   }
+
+  loadSnippet(){
+    console.log("******");
+    let activeSnippet = this.getActiveSnippet();
+    if(activeSnippet){
+      // Load Snippet
+      var element = document.getElementById("code-display-container");
+      if(element){
+        element.innerHTML = '';
+        for(var line of activeSnippet.content){
+          // fix form empty div
+          if(line.length == 0){
+            line += ' ';
+          }
+          
+          let leadingSpaces = this.numLeadingSpaces(line);
+          const spaces = ' '.repeat(leadingSpaces * 2);
+          let div = document.createElement('div');
+          div.textContent =  spaces + line;       
+          console.log(div);   
+          element.appendChild(div);
+        }
+      }      
+
+      //create gutter
+      var gutterContainer = document.getElementById('gutter-container');
+      if(gutterContainer){
+        gutterContainer.innerHTML = "";
+        
+        for(let i = 1; i <= activeSnippet.content.length; ++i){
+          let row = document.createElement('div');
+          row.classList.add('d-flex', 'justify-content-end')
+          row.textContent = i.toString();
+          gutterContainer.appendChild(row);
+        }
+      }
+    }
+  }
+
+  numLeadingSpaces(line:string) : number {
+    let count = 0;
+    for(let i = 0; i < line.length; ++i){
+      let c = line.charAt(i);
+      if(c == ' ' || c == ' '){
+        ++count;
+      }
+      else{
+        break;
+      }
+    }
+    return count;
+  }
+
+
 }
