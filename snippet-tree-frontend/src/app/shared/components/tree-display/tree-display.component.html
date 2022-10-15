@@ -1,26 +1,31 @@
 <div class="display-container">
     <!-- Snippet Header -->
     <div class="container-header py-3 px-4 d-flex justify-content-between">
-        <div id="treeDisplayHeader" class="display-6">{{treeName}}</div>
+        <!-- <div id="treeDisplayHeader" class="display-6">{{treeName}}</div> -->
+        <div id="treeDisplayHeader" class="display-6"></div>
+        <div>
+          <img (click)="createItem('directory', addItem)" height="40px" width="40px" src="assets/img/add-folder.svg" alt="..." />
+          <img (click)="createItem('file', addItem)" height="40px" width="40px" src="assets/img/add-document.svg" alt="..." />
+  
+        </div>
+
     </div>
 
     <!-- tree display -->
-    <div id="tree-display" class="d-flex my-2 row d-flex">
+    <div id="tree-display" class="d-flex my-2 row d-flex container-fluid">
 
     </div>
 
-    <div class="display-col d-flex">
-      <h1 *ngFor="let dir of currentPath">{{dir}}</h1>
-      <div class="d-flex justify-content-center col-2 m-2" *ngFor="let dir of currentPath">
-        <img mat-raised-button matTooltip="create new file/folder" (click)="open(addItem)"
-            class="svgimg mx-2" height="30px" width="30px" src="assets/img/add-new.svg" alt="..." />
-            <h1>{{dir}}</h1>
 
-      </div>    
+
+
+    <div id="addFileGutter"class="display-col d-flex pb-2">
     </div>
 
 
 </div>
+<button style="display:none" id="addItemModalBtn" (click) ="open(addItem)">test</button>
+
 
 
 
@@ -28,28 +33,28 @@
    <!-- add folder or dir Modal -->
    <ng-template #addItem let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Create new item</h4>
+      <div class="h2 modal-title" id="addItemHeader">{{addItemModalHeader}}</div>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-      <label for="exampleFormControlInput1">Name</label>
-      <input [(ngModel)]="newItemName" class="" type="email" class="form-control" id="exampleFormControlInput1" placeholder="name">
-
-      <div class="mt-3 d-flex justify-content-center">
-        <mat-radio-group
+      <!-- <label for="exampleFormControlInput1">Name</label> -->
+      <input [(ngModel)]="newItemName" value="" class="" type="email" class="form-control" id="exampleFormControlInput1" placeholder="{{addItemPlacehoder}}">
+      <div class="d-flex justify-content-center pt-3">{{currentPath}}</div>
+      <div class="my-3 d-flex justify-content-center">
+        <!-- <mat-radio-group
         aria-labelledby="example-radio-group-label"
         class="example-radio-group"
         [(ngModel)]="itemType">
         <mat-radio-button class="mx-2" *ngFor="let item of itemList" [value]="item">
           {{item}}
         </mat-radio-button>
-      </mat-radio-group>
+      </mat-radio-group> -->
         
       </div>
       
 
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline-success" (click)="createNewItem();modal.dismiss()">Add</button>
+      <button id="addItemModalBtn" class="btn btn-outline-success" (click)="createNewItem();modal.dismiss()">Add</button>
     </div>
   </ng-template>

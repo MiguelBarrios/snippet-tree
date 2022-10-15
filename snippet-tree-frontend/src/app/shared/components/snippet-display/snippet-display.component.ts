@@ -7,6 +7,9 @@ import {Clipboard} from '@angular/cdk/clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserDashboardComponent } from 'src/app/pages/user-dashboard/user-dashboard/user-dashboard.component';
 import { Tree } from 'src/app/pages/user-dashboard/tree-browser/models/tree';
+import { TreeService } from '../../services/tree.service';
+import { TreeDisplayComponent } from '../tree-display/tree-display.component';
+import { ThisReceiver } from '@angular/compiler';
 
 
 
@@ -29,7 +32,8 @@ export class SnippetDisplayComponent implements OnInit {
   
 
   constructor(private snippetService: SnippetService, private modalService: NgbModal, 
-    private clipboard: Clipboard, private _snackBar: MatSnackBar) { }
+    private clipboard: Clipboard, private _snackBar: MatSnackBar,
+    private treeService:TreeService) { }
 
   ngOnInit(): void {
   }
@@ -49,10 +53,10 @@ export class SnippetDisplayComponent implements OnInit {
   getItemName(){
     return this.snippetService.getActiveSnippetName();
   }
+
   
 
   getSnippetById(snippetId: String, name: string){
-    console.log(snippetId);
     this.snippetService.getSnippetById(snippetId).subscribe(
       (snippet) => {
         this.snippetService.setActiveSnippet(snippet, name);
@@ -116,7 +120,6 @@ export class SnippetDisplayComponent implements OnInit {
         gutterContainer.innerHTML = "";
         
         for(let i = 1; i <= activeSnippet.content.length; ++i){
-          console.log("added row");
           let row = document.createElement('div');
           row.classList.add('d-flex', 'justify-content-end')
           row.textContent = i.toString();
@@ -129,9 +132,28 @@ export class SnippetDisplayComponent implements OnInit {
     }
   }
 
-  editSnippet(){
+  deleteSnippet() {
+    this.snippetService.deleteActiveSnippet().subscribe(
+      (data) => {
+        console.log("snippet deleted succesfullly");
+        this.snippetService.turnOffDisplay();
+        this.treeService.removeActiveSnippetFromTree();
 
+        //refresh display
+        let currentPath = this.treeService.getCurrentPath();
+        console.log("****");
+        console.log(currentPath);
+        let path = this.treeService.getCurrentPath().join('-');
+        console.log(path);
+        this.treeService.renderDisplay(path, 'directory', '');
+      },
+      (error) => {
+        console.log(error);
+        console.error("Error deleting snippet");
+      }
+    )    
   }
+  
 
   // Modal methods
   open(content: any) {
