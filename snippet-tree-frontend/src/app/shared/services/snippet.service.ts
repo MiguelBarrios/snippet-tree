@@ -92,14 +92,20 @@ export class SnippetService {
     console.log("******");
     let activeSnippet = this.getActiveSnippet();
     if(activeSnippet){
-      console.log(activeSnippet.content);
       // Load Snippet
       var element = document.getElementById("code-display-container");
       if(element){
         element.innerHTML = '';
         for(var line of activeSnippet.content){
+          // fix form empty div
+          if(line.length == 0){
+            line += ' ';
+          }
+          
+          let leadingSpaces = this.numLeadingSpaces(line);
+          const spaces = ' '.repeat(leadingSpaces * 2);
           let div = document.createElement('div');
-          div.textContent =  line;          
+          div.textContent =  spaces + line;          
           element.appendChild(div);
         }
       }      
@@ -119,6 +125,19 @@ export class SnippetService {
     }
   }
 
+  numLeadingSpaces(line:string) : number {
+    let count = 0;
+    for(let i = 0; i < line.length; ++i){
+      let c = line.charAt(i);
+      if(c == ' ' || c == ' '){
+        ++count;
+      }
+      else{
+        break;
+      }
+    }
+    return count;
+  }
 
 
 }
