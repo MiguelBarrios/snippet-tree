@@ -21,6 +21,7 @@ export class TreeDisplayComponent implements OnInit {
   newItemName: string = "";
   itemType: string = "file";
   itemList: string[] = ['file', 'directory'];
+  activeTree: boolean = false;
 
   addItemModalHeader: string = '';
   addItemPlacehoder: string = 'asdf';
@@ -61,6 +62,7 @@ export class TreeDisplayComponent implements OnInit {
       this.snippetService.addSnippet(snippet).subscribe(
         (snippet) => {      
           this.addSnippetToTree(snippet, selectedTree);
+          this.newItemName = '';
         },
         (error) => {
           console.log(error);
@@ -70,6 +72,8 @@ export class TreeDisplayComponent implements OnInit {
     else{
       this.addNewDirectoryToTree(selectedTree);
     }
+
+    
   }
 
   // Add a new snippet item to the active tree

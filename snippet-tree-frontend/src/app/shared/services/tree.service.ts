@@ -14,6 +14,7 @@ import { Treenode } from 'src/app/pages/user-dashboard/tree-browser/models/treen
 })
 export class TreeService {
 
+  private treeDisplay: boolean = false;
   private activeTree: Tree  = new Tree();
 
   private currentPath: string[] = [];
@@ -22,6 +23,10 @@ export class TreeService {
 
   private url = environment.baseUrl + 'api/v1/trees';
   constructor(private http:HttpClient, private auth: AuthService, private snippetService:SnippetService) { }
+
+  getTreeDisplay(){
+    return this.treeDisplay;
+  }
 
   loadTree(tree:Tree){
     this.setActiveTree(tree);
@@ -129,8 +134,19 @@ export class TreeService {
   // TODO: reload screen when new item is created
   // TODO: fix bug, directory header is displayed when new file is created
   renderDisplay(itemPath:string, type:string, fileid:string){
-    console.log("renderDispalay2()");
     let path = itemPath.split('-');
+
+    let header = document.getElementById('treeDisplayHeader');
+    if(header){
+      //Create header path
+      let curPath = '';
+      for(let i = 0; i < path.length; ++i){
+        let cur = document.createElement('div');
+        cur.textContent = curPath + path[i];
+      }
+    }
+
+
     console.log("Rendering " + type + " : ");
     console.log(path);
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SnippetDisplayComponent } from 'src/app/shared/components/snippet-display/snippet-display.component';
 import { TreeDisplayComponent } from 'src/app/shared/components/tree-display/tree-display.component';
@@ -14,12 +14,11 @@ import { TreeBrowserComponent } from '../tree-browser/tree-browser.component';
 })
 export class UserDashboardComponent implements OnInit {
 
+  treeDisplay:boolean = false;
 
   constructor(private route: ActivatedRoute, 
               private authService:AuthService,
-              private snippetDisplay:SnippetDisplayComponent,
-              private treeDisplay:TreeDisplayComponent,
-              private  treeBrowser:TreeBrowserComponent
+              public cd: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -35,5 +34,8 @@ export class UserDashboardComponent implements OnInit {
     )
   }
 
-
+  turnOnTreeDisplay(){
+    this.treeDisplay = true;
+    this.cd.detectChanges();
+  }
 }

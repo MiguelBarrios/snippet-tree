@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SnippetDisplayComponent } from 'src/app/shared/components/snippet-display/snippet-display.component';
 import { TreeDisplayComponent } from 'src/app/shared/components/tree-display/tree-display.component';
+import { User } from 'src/app/shared/models/user';
 import { TreeService } from 'src/app/shared/services/tree.service';
+import { UserDashboardComponent } from '../user-dashboard/user-dashboard.component';
 import { Tree } from './models/tree';
 import { Treenode } from './models/treenode';
 
@@ -18,7 +20,8 @@ export class TreeBrowserComponent implements OnInit {
   newTreeName: string = "";
 
   constructor(private treeService:TreeService, private modalService: NgbModal,
-    private treeDisplay: TreeDisplayComponent) { }
+    private treeDisplay: TreeDisplayComponent,
+    private userDashboard: UserDashboardComponent) { }
 
   ngOnInit(): void {
     this.getUserTrees();
@@ -48,6 +51,7 @@ export class TreeBrowserComponent implements OnInit {
   }
 
   loadTree(tree:Tree){
+    this.userDashboard.turnOnTreeDisplay();
     this.treeService.loadTree(tree);
   }
 
