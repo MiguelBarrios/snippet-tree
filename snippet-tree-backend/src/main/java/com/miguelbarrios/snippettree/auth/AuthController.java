@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin({"*","http://localhost"})
 public class AuthController {
 	
-	private static String username = "lochnessbarrios";
 	
 	@Autowired
 	private AuthService authService;
@@ -32,8 +31,8 @@ public class AuthController {
 	}
 
 	@GetMapping(path = "/authenticate")
-	public User authenticate() {
-		return authService.getUserByUsername(username);
+	public User authenticate(Principal principal) {
+		return authService.getUserByUsername(principal.getName());
 	}
 	
 
