@@ -102,10 +102,8 @@ export class SnippetService {
             line += ' ';
           }
           
-          let leadingSpaces = this.numLeadingSpaces(line);
-          const spaces = ' '.repeat(leadingSpaces * 2);
           let div = document.createElement('div');
-          div.textContent =  spaces + line;       
+          div.textContent =  line;       
           console.log(div);   
           element.appendChild(div);
         }
@@ -125,20 +123,5 @@ export class SnippetService {
       }
     }
   }
-
-  numLeadingSpaces(line:string) : number {
-    let count = 0;
-    for(let i = 0; i < line.length; ++i){
-      let c = line.charAt(i);
-      if(c == ' ' || c == ' '){
-        ++count;
-      }
-      else{
-        break;
-      }
-    }
-    return count;
-  }
-
 
 }

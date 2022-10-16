@@ -68,7 +68,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('credentials');
-    this.router.navigateByUrl('home');
+    this.router.navigateByUrl('/');
 
   }
 

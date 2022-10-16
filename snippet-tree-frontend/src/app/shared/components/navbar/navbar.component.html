@@ -42,15 +42,6 @@
           <li class="nav-item" *ngIf="loggedin">
             <a class="nav-link" [routerLink]="['/dashboard']">Dashboard</a>
           </li>
-          <li class="nav-item" *ngIf="loggedin">
-            <a class="nav-link" [routerLink]="['/browse']" tabindex="-1" aria-disabled="true">Browse Stocks</a>
-          </li>
-          <li class="nav-item" *ngIf="loggedin">
-            <a class="nav-link" [routerLink]="['/leaderBoard']" tabindex="-1" aria-disabled="true">Leaderboard</a>
-          </li>
-          <li class="nav-item" *ngIf="loggedin">
-            <a class="nav-link" [routerLink]="['/singleStockView/ORCL']" tabindex="-1" aria-disabled="true">Trade</a>
-          </li>
         </ul> 
         <!-- Left links -->
         <div class="d-flex align-items-center ms-auto">

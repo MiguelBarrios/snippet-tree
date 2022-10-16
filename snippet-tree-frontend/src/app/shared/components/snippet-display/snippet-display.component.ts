@@ -146,6 +146,22 @@ export class SnippetDisplayComponent implements OnInit {
     )    
   }
   
+  openEditor(){
+    console.log("open editor");
+    let snippet = this.snippetService.getActiveSnippet();
+    let snippetName = this.snippetService.getActiveSnippetName();
+    let editor = document.getElementById('editor');
+    if(editor){
+      let data = snippet?.content;
+      if(data){
+        let content = '';
+        for(let i = 0; i < data.length; ++i){
+          content += data[i] + '\n';
+        }
+        editor.innerHTML = content;
+      }
+    }
+  }
 
   // Modal methods
   open(content: any) {
