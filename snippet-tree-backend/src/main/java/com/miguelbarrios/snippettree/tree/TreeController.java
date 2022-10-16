@@ -21,14 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin({ "*", "http://localhost" })
 public class TreeController {
 	
-	private static String username = "lochnessbarrios";
 	
 	@Autowired
 	private TreeService treeService;
 	
 	@PostMapping("trees")
-	private Tree saveTree(@RequestBody Tree tree, HttpServletResponse response) {
-		tree.setUsername(username);
+	private Tree saveTree(@RequestBody Tree tree, HttpServletResponse response, Principal principal) {
+		tree.setUsername(principal.getName());
 		Tree managedTree = treeService.save(tree);
 		if(managedTree == null) {
 			response.setStatus(409);
@@ -69,7 +68,7 @@ public class TreeController {
 	private List<Tree> getUserTrees(HttpServletResponse response, Principal principal){
 		List<Tree> trees;
 		try {
-			trees = treeService.getUserTrees(username);
+			trees = treeService.getUserTrees(principal.getName());
 		}catch(Exception e) {
 			trees = null;
 			e.printStackTrace();
