@@ -147,9 +147,17 @@ export class SnippetDisplayComponent implements OnInit {
   }
   
   openEditor(){
-    console.log("open editor");
+    // show editor
+    document.getElementById('snippet-editor')?.classList.remove('hidden');
+    // hide snippet display
+    document.getElementById('snippet-display-container')?.classList.add('hidden');
+    
     let snippet = this.snippetService.getActiveSnippet();
-    let snippetName = this.snippetService.getActiveSnippetName();
+    if(snippet){
+      let snippetName = this.snippetService.getActiveSnippetName();
+      this.snippetContent = this.snippetToString(snippet);
+    }
+
     let editor = document.getElementById('editor');
     if(editor){
       let data = snippet?.content;
@@ -161,6 +169,10 @@ export class SnippetDisplayComponent implements OnInit {
         editor.innerHTML = content;
       }
     }
+  }
+
+  saveSnippet(){
+
   }
 
   // Modal methods

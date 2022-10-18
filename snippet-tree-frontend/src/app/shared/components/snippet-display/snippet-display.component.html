@@ -24,13 +24,13 @@
 
 
 <!-- Edit Snippet Display -->
-<div class="display-container">
+<div id="snippet-editor" class="display-container hidden">
 
   <!-- Snippet Header -->
   <div  class="container-header py-3 px-4 d-flex justify-content-between">
       <div class="display-6">Snippet Editor</div>
       <div class="justify-content-end">
-          <img mat-raised-button matTooltip="edit snippet" (click)="open(editSnippet)" class="svgimg mx-2" height="30px" width="30px" src="assets/img/edit.svg" alt="..." />
+          <img mat-raised-button matTooltip="edit snippet" (click)="updateSnippet()" class="svgimg mx-2" height="30px" width="30px" src="assets/img/save.svg" alt="..." />
           <img mat-raised-button matTooltip="delete snippit" (click)="deleteSnippet()" class="svgimg mx-2" height="30px" width="30px" src="assets/img/delete-svgrepo-com.svg" alt="..." />
       </div>
   </div>
@@ -38,7 +38,7 @@
   <!-- Snippet Body -->
   <div id="snippet-body" class="d-flex my-2 justify-content-center">
       <section class="content mx-2">
-         <textarea name="editor" id="editor" class="boxSizing-borderBox" placeholder="Okay..."></textarea>
+         <textarea [(ngModel)]="snippetContent" name="editor" id="editor" class="boxSizing-borderBox" placeholder="Okay..."></textarea>
       </section>
   </div>
 </div>
@@ -48,7 +48,6 @@
 
 
  <!-- Templates -->
-   <!-- Register Modal -->
    <ng-template #editSnippet let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Snippet Editor</h4>
