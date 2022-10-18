@@ -1,40 +1,122 @@
-<div class="px-3 py-3 navigation-container d-flex justify-content-between">
-    
-    <!-- nav-bar left -->
-    <div class="d-flex">
-        <div class="d-flex align-items-center mx-2">
-            <img class="rounded-circle" height="40px" width="40px" src="assets/img/tree.png" alt="..." />
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <!-- Container wrapper -->
+    <div class="container">
+      <!-- Navbar brand -->
+      <a class="navbar-brand me-2" href="#" [routerLink]="['/home']">
+        <img class="rounded-circle" height="40px" width="40px" src="assets/img/tree.png" alt="..." />
+      </a>
+
+      <div class="d-flex">
+        <div >
+            <img class="rounded-circle mx-2" height="40px" width="40px" src="assets/img/avatar.png" alt="..." />
         </div>
-        <div id="navbar-left" class="d-flex navigation-container">
-            <div id="search-bar-container" class="d-flex col-6">
-                <div id="search-container" class="input-group px-1">
-                    <input id="search-input-box" type="text" class="form-control" placeholder="search terms" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                </div>
-    
-                <button id="search-btn" class="btn btn-outline-secondary" type="button">Search</button>
-            </div>
-    
-            <div class="d-flex align-items-center">Dashboard</div>
-            <div class="d-flex align-items-center">Community</div>
-        </div>
+        
 
-    </div>
+              <!-- Toggle button -->
+      <div ngbDropdown class="d-inline-block" display="dynamic">
 
+        <button class="btn btn-outline-success navbar-toggler" type="button"  ngbDropdownToggle></button>
 
-    <!-- nav-bar right -->
-    <div id="navbar-right" class="d-flex">
-        <img class="rounded-circle" height="40px" width="40px" src="assets/img/avatar.png" alt="..." />
-
-        <div class="col mx-3">
-            <div ngbDropdown class="d-inline-block">
-              <button id="user-dropdown-btn" type="button" class="btn btn-outline-success" ngbDropdownToggle></button>
-              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <button ngbDropdownItem>Logout</button>
-                <button ngbDropdownItem>Settings</button>        
-              </div>
-            </div>
+        <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+          <div *ngIf="!loggedin">
+            <button ngbDropdownItem (click)="open(loginModal)">Login</button>
+            <button ngbDropdownItem (click)="open(registerModal)">Sign Up</button>
           </div>
+          <div *ngIf="loggedin">
+            <a class="nav-link" [routerLink]="['/home']">Home</a>
+            <a class="nav-link" [routerLink]="['/dashboard']">Dashboard</a>
+            <a class="nav-link" [routerLink]="['/home']" tabindex="-1" aria-disabled="true" (click)="logout()">Logout</a>
+          </div>
+
+
+        </div>
+      </div>
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarButtonsExample">
+        <!-- Left links -->
+        <ul *ngIf="loggedIn" class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item" *ngIf="loggedin">
+            <a class="nav-link" [routerLink]="['/home']">Home</a>
+          </li>
+          <li class="nav-item" *ngIf="loggedin">
+            <a class="nav-link" [routerLink]="['/dashboard']">Dashboard</a>
+          </li>
+        </ul> 
+        <!-- Left links -->
+        <div class="d-flex align-items-center ms-auto">
+          <button *ngIf="!loggedin" type="button" class="btn btn-warning px-3 me-2" (click)="open(loginModal)"> Login </button>
+          <button *ngIf="!loggedin" type="button" class="btn btn-warning me-3" (click)="open(registerModal)"> Sign up </button>
+          <div *ngIf="loggedin">
+            <button id="search-btn" type="button" class="btn btn-outline-secondary" (click)="logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+      <!-- Collapsible wrapper -->
+
+      </div>
+
+
+
     </div>
 
+    <!-- Container wrapper -->
+  </nav>
 
-</div>
+
+<!-- Search bar -->
+<!-- <div id="search-bar-container" class="d-flex col-6">
+    <div id="search-container" class="input-group px-1">
+        <input id="search-input-box" type="text" class="form-control" placeholder="search terms" aria-label="Recipient's username" aria-describedby="basic-addon2">
+    </div>
+
+    <button id="search-btn" class="btn btn-outline-secondary" type="button">Search</button>
+</div> -->
+
+
+
+  <!-- Login Modal -->
+  <ng-template #loginModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Login</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form name="updateEvent">
+        <div class="mb-3">
+          <label>Username</label>
+          <input class="form-control" name="username" type="text" [(ngModel)]="loginUser.username">
+          <label>Password</label>
+          <input class="form-control" name="password" type="password" [(ngModel)]="loginUser.password" (keyup.enter)="login(loginUser)">
+        </div>
+        <label *ngIf="loginError" class="text-danger">Invalid login</label>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-success" (click)="login(loginUser)">Login</button>
+    </div>
+  </ng-template>
+  <!-- Register Modal -->
+  <ng-template #registerModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Register</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <label>First Name</label>
+      <input class="form-control" name="firstname" type="text" [(ngModel)]="newUser.firstName">
+      <label>Last Name</label>
+      <input class="form-control" name="lastname" type="text" [(ngModel)]="newUser.lastName">
+      <label>Username</label>
+      <input class="form-control" name="username" type="text" [(ngModel)]="newUser.username">
+      <label>Email</label>
+      <input class="form-control" name="email" type="text" [(ngModel)]="newUser.email">
+      <!-- <label>Profile Picture</label> -->
+      <!-- <input class="form-control" name="profilePic" type="text" [(ngModel)]="newUser.profilePicture"> -->
+      <label>Password</label>
+      <input class="form-control" name="password" type="password" [(ngModel)]="newUser.password" (keyup.enter)="register(newUser)">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-success" (click)="register(newUser); modal.dismiss()">Register</button>
+    </div>
+  </ng-template>

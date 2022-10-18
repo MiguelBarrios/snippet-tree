@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SnippetDisplayComponent } from 'src/app/shared/components/snippet-display/snippet-display.component';
 import { TreeDisplayComponent } from 'src/app/shared/components/tree-display/tree-display.component';
 import { User } from 'src/app/shared/models/user';
@@ -18,20 +18,14 @@ export class UserDashboardComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, 
               private authService:AuthService,
-              public cd: ChangeDetectorRef
+              public cd: ChangeDetectorRef, private router: Router
   ) { }
 
   ngOnInit(): void {
-    let user = new User();
-    this.authService.login("lochnessbarrios", "password").subscribe(
-      (data) => {
-        // console.log("Crendentials saved");
-        // console.log(data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    )
+    let loggedIn = this.authService.checkLogin();
+    if(!loggedIn){
+      this.router.navigateByUrl('/');
+    }
   }
 
   turnOnTreeDisplay(){
