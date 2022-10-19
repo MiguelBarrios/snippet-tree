@@ -28,6 +28,9 @@ export class HomepageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedin = this.authService.checkLogin();
+    if(this.loggedin){
+      this.router.navigateByUrl('/user-dashboard');
+    }
   }
 
   open(content: any) {
