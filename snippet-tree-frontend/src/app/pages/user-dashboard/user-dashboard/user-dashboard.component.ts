@@ -24,7 +24,7 @@ export class UserDashboardComponent implements OnInit {
   ngOnInit(): void {
     let loggedIn = this.authService.checkLogin();
     if(!loggedIn){
-      this.router.navigateByUrl('/');
+      this.router.navigateByUrl('/home');
     }
   }
 

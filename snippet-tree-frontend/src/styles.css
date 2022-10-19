@@ -3,7 +3,11 @@
 
 html, body { 
     height: 100%; 
-    background-color: rgb(14,17,22);
+    background: url(assets/img/homepagepic.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -29,4 +33,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .hidden {
     display: none;
+}
+
+.section-body-container {
+    background-color: rgb(14,17,22);
 }

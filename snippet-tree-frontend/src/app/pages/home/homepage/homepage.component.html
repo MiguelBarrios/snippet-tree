@@ -13,7 +13,7 @@
             <div class="carousel-container">
               <div class="carousel-content">
                 <h2 class="animate__animated animate__fadeInDown">Welcome to <span>Snippet Tree</span></h2>
-                <p class="animate__animated animate__fadeInUp">Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
+                <p class="animate__animated animate__fadeInUp">Snippet tree is a web app to store and manage your code snippets </p>
                 <a (click)="open(loginModal)" class="btn-get-started animate__animated animate__fadeInUp scrollto">Login</a>
                 <a (click)="open(registerModal)" class="btn-get-started animate__animated animate__fadeInUp scrollto">Sign up</a>
               </div>
@@ -47,14 +47,14 @@
             <input class="form-control form-control-lg" name="password" type="password" placeholder="password" [(ngModel)]="loginUser.password" (keyup.enter)="login(loginUser)">
           </div>
 
-          <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
+          <!-- <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p> -->
 
           <button class="btn btn-outline-light btn-lg px-5" (click)="login(loginUser)" type="submit">Login</button>
 
         </div>
 
         <div>
-          <p class="mb-0">Don't have an account? <a href="#!" class="text-white-50 fw-bold">Sign Up</a>
+          <p class="mb-0">Don't have an account?<a (click)="modal.dismiss(); open(registerModal)" class="text-white-50 fw-bold">Sign Up</a>
           </p>
         </div>
       </div>
@@ -86,8 +86,7 @@
         </div>
 
         <div>
-          <p class="mb-0">Don't have an account? <a href="#!" class="text-white-50 fw-bold">Sign Up</a>
-          </p>
+          
         </div>
       </div>
     </div>
