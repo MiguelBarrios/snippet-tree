@@ -124,6 +124,20 @@ export class SnippetDisplayComponent implements OnInit {
     }
   }
 
+  createGutter(containerId:string, snippet:Snippet){
+    var gutterContainer = document.getElementById(containerId);
+    if(gutterContainer){
+      gutterContainer.innerHTML = "";
+      
+      for(let i = 1; i <= snippet.content.length; ++i){
+        let row = document.createElement('div');
+        row.classList.add('d-flex', 'justify-content-end')
+        row.textContent = i.toString();
+        gutterContainer.appendChild(row);
+      }
+    }
+  }
+
   deleteSnippet() {
     this.snippetService.deleteActiveSnippet().subscribe(
       (data) => {
@@ -169,11 +183,12 @@ export class SnippetDisplayComponent implements OnInit {
         editor.innerHTML = content;
       }
     }
+    if(snippet){
+      // this.createGutter('editor-gutter-container',snippet);
+    }
+    
   }
 
-  saveSnippet(){
-
-  }
 
   // Modal methods
   open(content: any) {
@@ -208,16 +223,22 @@ export class SnippetDisplayComponent implements OnInit {
     }
   }
 
+
   updateSnippet(){
     let activeSnippet = this.snippetService.getActiveSnippet();
     if(activeSnippet){
+      this.snippetContent = this.snippetContent.trimEnd();
       let arr = this.snippetContent.split("\n");
+
       activeSnippet.content = arr;
       this.snippetService.saveSnippet(activeSnippet).subscribe(
         (snippet) => {
           this.snippetContent = this.snippetToString(snippet);
           this.snippetService.setActiveSnippet(snippet, this.snippetService.getActiveSnippetName());
+            document.getElementById('snippet-editor')?.classList.add('hidden');
+          document.getElementById('snippet-display-container')?.classList.remove('hidden');
           this.loadSnippet();
+
         },
         (error) => {
           console.log(error);
