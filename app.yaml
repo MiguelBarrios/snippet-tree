@@ -6,6 +6,7 @@ services:
   #   - "3000:3000"
   mongodb:
     image: mongo
+    hostname: mongo
     ports: 
     - "27017:27017"
     environment:
@@ -22,6 +23,15 @@ services:
     - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
     - ME_CONFIG_MONGODB_ADMINPASSWORD=password
     - ME_CONFIG_MONGODB_SERVER=mongodb
+  # my-app:
+  #   image: registry.hub.docker.com/miguelbardav/snippetwebapp:0.0.1-SNAPSHOT
+  #   ports: 
+  #   - "8089:8089"
+  #   restart: always
+  #   depends_on:
+  #   - mongodb
+  #   environment:
+  #   - SPRING_PROFILES_ACTIVE=docker
 volumes:
   mongo-data:
     driver: local

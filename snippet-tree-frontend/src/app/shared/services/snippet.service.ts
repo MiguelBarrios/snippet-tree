@@ -89,7 +89,6 @@ export class SnippetService {
   }
 
   loadSnippet(){
-    console.log("******");
     let activeSnippet = this.getActiveSnippet();
     if(activeSnippet){
       // Load Snippet
@@ -104,7 +103,6 @@ export class SnippetService {
           
           let div = document.createElement('div');
           div.textContent =  line;       
-          console.log(div);   
           element.appendChild(div);
         }
       }      

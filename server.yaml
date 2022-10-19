@@ -1,0 +1,8 @@
+version: '3'
+services:
+    my-app:
+      image: registry.hub.docker.com/miguelbardav/snippetwebapp:1.0
+      ports: 
+      - "8089:8089"
+      restart: always
+

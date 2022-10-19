@@ -1,4 +1,4 @@
-<div id="snippet-display-container" class="hidden display-container">
+<div id="snippet-display-container" class="hidden display-container section-body-container">
 
     <!-- Snippet Header -->
     <div  class="container-header py-3 px-4 d-flex justify-content-between">
@@ -24,21 +24,23 @@
 
 
 <!-- Edit Snippet Display -->
-<div id="snippet-editor" class="display-container hidden">
+<div id="snippet-editor" class="display-container hidden section-body-container">
 
   <!-- Snippet Header -->
   <div  class="container-header py-3 px-4 d-flex justify-content-between">
       <div class="display-6">Snippet Editor</div>
       <div class="justify-content-end">
-          <img mat-raised-button matTooltip="edit snippet" (click)="updateSnippet()" class="svgimg mx-2" height="30px" width="30px" src="assets/img/save.svg" alt="..." />
-          <img mat-raised-button matTooltip="delete snippit" (click)="deleteSnippet()" class="svgimg mx-2" height="30px" width="30px" src="assets/img/delete-svgrepo-com.svg" alt="..." />
+          <img mat-raised-button matTooltip="save snippet" (click)="updateSnippet()" class="svgimg mx-2" height="30px" width="30px" src="assets/img/save.svg" alt="..." />
       </div>
   </div>
 
   <!-- Snippet Body -->
-  <div id="snippet-body" class="d-flex my-2 justify-content-center">
+  <div id="snippet-body" class="d-flex my-2 justify-content-center section-body-container">
+      <!-- Editor guttor -->
+      <div id="editor-gutter-container" class="gutter mx-5 d-flex flex-column">
+      </div>
       <section class="content mx-2">
-         <textarea [(ngModel)]="snippetContent" name="editor" id="editor" class="boxSizing-borderBox" placeholder="Okay..."></textarea>
+         <textarea [(ngModel)]="snippetContent" name="editor" id="editor" class="boxSizing-borderBox" placeholder="... data ..."></textarea>
       </section>
   </div>
 </div>

@@ -18,6 +18,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { TreeDisplayComponent } from './shared/components/tree-display/tree-display.component';
 import { TreeBrowserComponent } from './pages/user-dashboard/tree-browser/tree-browser.component';
 import {MatRadioModule} from '@angular/material/radio';
+import { HomepageComponent } from './pages/home/homepage/homepage.component';
 
  
 
@@ -25,12 +26,13 @@ import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent, 
     NavbarComponent,
     SnippetDisplayComponent,
     UserDashboardComponent,
     TreeDisplayComponent,
-    TreeBrowserComponent
+    TreeBrowserComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule,

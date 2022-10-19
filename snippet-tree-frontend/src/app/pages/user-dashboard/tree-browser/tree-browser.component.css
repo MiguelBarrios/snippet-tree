@@ -1,3 +1,7 @@
+#tree-browser-body{
+    background-color: rgb(14,17,22);
+}
+
 .node{
     animation-duration: .15s;
     animation-iteration-count: 3;

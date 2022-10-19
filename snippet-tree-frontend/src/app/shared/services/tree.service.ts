@@ -135,7 +135,8 @@ export class TreeService {
   // TODO: reload screen when new item is created
   // TODO: fix bug, directory header is displayed when new file is created
   renderDisplay(itemPath:string, type:string, fileid:string){
-    let path = itemPath.split('-');
+    console.log("ItemPath: " + itemPath); 
+    let path = itemPath.split('|');
 
     let header = document.getElementById('treeDisplayHeader');
     if(header){
@@ -179,7 +180,7 @@ export class TreeService {
             let tree = root;
             let nextpath = path[0];
             for(let i = 1; i < path.length; ++i){
-              nextpath = nextpath + '-' + path[i];
+              nextpath = nextpath + '|' + path[i];
               console.log("Next path: " + nextpath);
               
               let nextDirName = path[i];
@@ -209,7 +210,7 @@ export class TreeService {
     let directoryItems = directoryInfo.items;
     for(let i = 0; i < directoryItems.length; ++i){
       let item = directoryItems[i];
-      let itemContainer = this.buildItemContainer(item, id + "-" + item.name);
+      let itemContainer = this.buildItemContainer(item, id + "|" + item.name);
       directoryContainer.appendChild(itemContainer);
     }
 
@@ -218,6 +219,8 @@ export class TreeService {
 
   loadSelectedItem = function(treeService:TreeService) {
     return function curried_func(e: any) {
+      //Hide editor if active
+      document.getElementById('snippet-editor')?.classList.add('hidden');
       let path = e.target.getAttribute('myparam.path');
       let type = e.target.getAttribute('myparam.type');
       let fileid = null;

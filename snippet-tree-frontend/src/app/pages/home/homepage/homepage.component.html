@@ -1,0 +1,97 @@
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero">
+    <div class="hero-container">
+      <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+
+        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+        <div class="carousel-inner" role="listbox">
+
+          <!-- Slide 1 -->
+          <div class="carousel-item active" style="background-image: url(assets/img/homepagepic.png);">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2 class="animate__animated animate__fadeInDown">Welcome to <span>Snippet Tree</span></h2>
+                <p class="animate__animated animate__fadeInUp">Snippet tree is a web app to store and manage your code snippets </p>
+                <a (click)="open(loginModal)" class="btn-get-started animate__animated animate__fadeInUp scrollto">Login</a>
+                <a (click)="open(registerModal)" class="btn-get-started animate__animated animate__fadeInUp scrollto">Sign up</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ################################# Modals ####################################################### -->
+
+
+  <ng-template #loginModal let-modal>
+    <div class="card bg-dark text-white" >
+      <div class="card-body p-5 text-center">
+
+        <div class="mb-md-5 mt-md-4 pb-5">
+
+          <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+          <p class="text-white-50 mb-5">Please enter your login and password!</p>
+
+          <div class="form-outline form-white mb-4">
+            <input class="form-control form-control-lg" placeholder="username" name="username" type="text" [(ngModel)]="loginUser.username">
+          </div>
+
+          <div class="form-outline form-white mb-4">
+            <input class="form-control form-control-lg" name="password" type="password" placeholder="password" [(ngModel)]="loginUser.password" (keyup.enter)="login(loginUser)">
+          </div>
+
+          <!-- <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p> -->
+
+          <button class="btn btn-outline-light btn-lg px-5" (click)="login(loginUser)" type="submit">Login</button>
+
+        </div>
+
+        <div>
+          <p class="mb-0">Don't have an account?<a (click)="modal.dismiss(); open(registerModal)" class="text-white-50 fw-bold">Sign Up</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #registerModal let-modal>
+    <div class="card bg-dark text-white" >
+      <div class="card-body p-5 text-center">
+
+        <div class="mb-md-5 mt-md-4 pb-5">
+
+          <h2 class="fw-bold mb-6 text-uppercase">Sign Up</h2>
+
+          <div class="form-outline form-white pt-2 mb-4">
+            <input class="form-control form-control-lg" placeholder="username" name="username" type="text" [(ngModel)]="newUser.username">
+          </div>
+
+          <div class="form-outline form-white mb-4">
+            <input class="form-control form-control-lg" name="password" type="password" placeholder="password" [(ngModel)]="newUser.password"  (keyup.enter)="login(loginUser)">
+          </div>
+
+          <div class="form-outline form-white mb-4">
+            <input class="form-control form-control-lg" name="email" type="text" placeholder="email" [(ngModel)]="newUser.email"  (keyup.enter)="login(loginUser)">
+          </div>
+
+          <button class="btn btn-outline-light btn-lg px-5" (click)="register(newUser); modal.dismiss()" (keyup.enter)="register(newUser)" type="submit">Sign Up</button>
+
+        </div>
+
+        <div>
+          
+        </div>
+      </div>
+    </div>
+
+  </ng-template>
+
+
+
