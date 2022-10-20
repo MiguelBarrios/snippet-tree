@@ -20,46 +20,16 @@
 </div>
 
 
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
-
-
-
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## About
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
-### Built With
+### Technologies used
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) 
@@ -69,11 +39,11 @@
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) 
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) 
-![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)  
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)  
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 
 
@@ -94,21 +64,29 @@
    ```
 4. Navigate to http://localhost:8089
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Features
 
+* Create personal account
+
+* Full CRUD on code snippets
+
+* Basic Auth using Spring Security
+
+### Whats Next
+* Make the site response to more devices
+
+* Add error checking on all form inputs
+
+* Make the site more user friendly
+
+* Add syntax highlighting to text editor
 
 <!-- CONTACT -->
 ## Contact
 
 Miguel Barrios
 miguelbarriosdavila@gmail.com
-
-Project Link: [https://github.com/MiguelBarrios/snippet-tree](https://github.com/MiguelBarrios/snippet-tree)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 
 
