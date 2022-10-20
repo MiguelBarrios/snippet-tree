@@ -73,7 +73,7 @@
 
 * Basic Auth using Spring Security
 
-### Whats Next
+### What's Next
 * Make the site response to more devices
 
 * Add error checking on all form inputs
@@ -82,11 +82,12 @@
 
 * Add syntax highlighting to text editor
 
+* Deploy site
+
 <!-- CONTACT -->
 ## Contact
 
-Miguel Barrios
-miguelbarriosdavila@gmail.com
+email: miguelbarriosdavila@gmail.com
 
 
 
