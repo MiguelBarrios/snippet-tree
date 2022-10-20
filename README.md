@@ -54,8 +54,6 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `MiguelBarrios`, `snippet-tree`, `twitter_handle`, `linkedin_username`, `miguelbarriosdavila@gmail.com_client`, `miguelbarriosdavila@gmail.com`, `Snippet Tree`, `Snippet tree is a web app to store and manage your code snippets
-`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
