@@ -46,24 +46,8 @@
 
 
 
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-### Prerequisites
-
-* Docker
-
-### Installation
-
-1. Download app.yaml https://github.com/MiguelBarrios/snippet-tree/blob/main/app.yaml
-2. Verify port 8089 is not in use
-3. Run with Docker
-   ```
-   docker-compose -f <path to app.yaml> up
-   ```
-4. Navigate to http://localhost:8089
-
+### Deployed Site
+http://44.211.208.234:8080/
 
 ### Features
 
